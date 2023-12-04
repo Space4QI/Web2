@@ -15,6 +15,6 @@ public class UniqueBrandNameValidator implements ConstraintValidator<UniqueBrand
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return brandRepository.findBrandByName(value).getModels().isEmpty();
+        return brandRepository.findBrandByName(value).isEmpty();
     }
 }

@@ -45,7 +45,7 @@ public class BrandController {
         }
         brandService.addBrand(brandModel);
 
-        return "redirect:/";
+        return "redirect:/brands/all";
     }
 
 //    @GetMapping("/view/{id}")
@@ -83,7 +83,7 @@ public class BrandController {
     @GetMapping("/all")
     public String getAll(Model model) {
         model.addAttribute("brandPage", brandService.getAllBrands());
-        return "brands-all";
+        return "brand-all";
     }
 
 

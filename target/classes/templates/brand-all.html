@@ -5,14 +5,14 @@
 <div th:replace="fragments/navbar">Navbar</div>
 <main class="flex-shrink-0">
     <div class="container">
-        <div class="row">
-            <div class="col-md-2"></div>
-            <div class="jumbotron text-center rounded col-md-8 align-self-center pt-5">
-                <h2 class="text-center text-dark mt-5">All Brand's</h2>
-                <div th:each="b : ${brandPage}" class="d-flex flex-column bg-text mb-3">
-                <h2 th:text="'Brand: ' + ${b.name}"></h2>
-                    <h4><a class="btn-block" th:href="@{/brands/brand-details/{id}(id=${b.name})}">Detail
-                        info</a></h4>
+        <div class="row row-cols-1 row-cols-md-4 g-4 mt-3">
+            <div th:each="b : ${brandPage}" class="col mb-3">
+                <div class="border-danger card d-flex align-items-center flex-column bg-text">
+                    <img src="/pic/abc.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="text-center" th:text="'Brand: ' + ${b.name}"></h5>
+                        <a th:href="@{/brands/brand-details/{id}(id=${b.name})}" class="btn btn-danger">Details info</a>
+                    </div>
                 </div>
             </div>
         </div>

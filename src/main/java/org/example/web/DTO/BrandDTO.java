@@ -10,11 +10,14 @@ public class BrandDTO {
 
     @UniqueBrandName
     private String name;
+
+    private String uuid;
     private List<ModelDTO> models;
 
-    public BrandDTO(String name, List<ModelDTO> models) {
+    public BrandDTO(String name, List<ModelDTO> models, String uuid) {
         this.name = name;
         this.models = models;
+        this.uuid = uuid;
     }
 
     public BrandDTO() {
@@ -39,10 +42,19 @@ public class BrandDTO {
         this.models = models;
     }
 
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
     @Override
     public String toString() {
         return "BrandDTO{" +
                 "name='" + name + '\'' +
+                ", uuid='" + uuid + '\'' +
                 ", models=" + models +
                 '}';
     }

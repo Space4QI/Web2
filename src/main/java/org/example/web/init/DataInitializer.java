@@ -65,14 +65,25 @@ public class DataInitializer implements CommandLineRunner {
         userEntity.setModified(LocalDate.now());
         userEntity.setCreated(LocalDate.now());
         userEntity.setUserRole(userRole);
-        userEntity.setUsername("TestName");
-        userEntity.setLastName("TestLastName");
+        userEntity.setUsername("meoow");
+        userEntity.setLastName("Dubr");
         userEntity.setImageURL("URL....");
-        userEntity.setFirstName("Ruslan");
+        userEntity.setFirstName("Jekich");
         userEntity.setPassword("12345");
         userEntity.setActive(true);
         //UserEntityDTO userEntityDTO = userEntityService.saveUserEntity(userEntityMapper.toDTO(userEntity));
        // LOGGER.warn(userEntityDTO.toString());
+
+        UserEntity userEntity1 = new UserEntity();
+        userEntity1.setModified(LocalDate.now());
+        userEntity1.setCreated(LocalDate.now());
+        userEntity1.setUserRole(userRole);
+        userEntity1.setUsername("kishlak");
+        userEntity1.setLastName("Ozerin");
+        userEntity1.setImageURL("URL123");
+        userEntity1.setFirstName("Kolya");
+        userEntity1.setPassword("4321");
+        userEntity1.setActive(true);
 
         Brand brand = new Brand();
         brand.setName("Tesla");
@@ -129,7 +140,7 @@ public class DataInitializer implements CommandLineRunner {
         offer1.setCreated(LocalDate.now());
         offer1.setModified(LocalDate.now());
         offer1.setModel(model1);
-        offer1.setSeller(userEntity);
+        offer1.setSeller(userEntity1);
         OfferDTO offerDTO = offerService.saveOffer(offerMapper.toDTO(offer));
         OfferDTO offerDTO1 = offerService.saveOffer(offerMapper.toDTO(offer1));
         //LOGGER.warn(offerDTO.toString());

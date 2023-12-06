@@ -48,37 +48,18 @@ public class BrandController {
         return "redirect:/brands/all";
     }
 
-//    @GetMapping("/view/{id}")
-//    public String viewBrand(@PathVariable UUID id, Model model) {
-//        BrandDTO brandDTO = brandService.getBrandById(id);
-//        model.addAttribute("brand", brandDTO);
-//        return "brand/view";
-//    }
-
-    @GetMapping("/brand-details/{id}")
-    public String brandDetails(@PathVariable("id") UUID id, Model model) {
-        model.addAttribute("brandDetails", brandService.getBrandById(id));
+    @GetMapping("/brand-details/{brand-name}")
+    public String brandDetails(@PathVariable("brand-name") String brandName, Model model) {
+        model.addAttribute("brandDetails", brandService.brandDetails(brandName));
 
         return "brand-details";
     }
 
-//    @GetMapping("/add")
-//    public String createBrandForm() {
-//        return "brand/createForm";
-//    }
-
-//    @PostMapping("/create")
-//    public String createBrand(@ModelAttribute BrandDTO brandDTO) {
-//        brandService.saveBrand(brandDTO);
-//        return "redirect:/brands";
-//    }
-
-//    @GetMapping("/all")
-//    public String getAllBrands(Model model) {
-//        List<BrandDTO> brands = brandService.getAllBrands();
-//        model.addAttribute("brands", brands);
-//        return "brand/allBrands";
-//    }
+    @GetMapping("/brand-delete/{brand-name}")
+    public String deleteBrand(@PathVariable("brand-name") String brandName) {
+        brandService.deleteBrand(brandName);
+        return "redirect:/brands/all";
+    }
 
     @GetMapping("/all")
     public String getAll(Model model) {
@@ -87,22 +68,16 @@ public class BrandController {
     }
 
 
-    @GetMapping("/edit/{id}")
-    public String editBrandForm(@PathVariable UUID id, Model model) {
-        BrandDTO brandDTO = brandService.getBrandById(id);
-        model.addAttribute("brandDTO", brandDTO);
-        return "brand/editForm";
-    }
-
-    @PostMapping("/edit/{id}")
-    public String editBrand(@PathVariable UUID id, @ModelAttribute BrandDTO brandDTO) {
-        brandService.updateBrand(id, brandDTO);
-        return "redirect:/brands";
-    }
-
-    @PostMapping("/delete/{id}")
-    public String deleteBrand(@PathVariable("id") UUID id) {
-        brandService.deleteBrand(id);
-        return "redirect:/brands/all";
-    }
+//    @GetMapping("/edit/{id}")
+//    public String editBrandForm(@PathVariable UUID id, Model model) {
+//        BrandDTO brandDTO = brandService.getBrandById(id);
+//        model.addAttribute("brandDTO", brandDTO);
+//        return "brand/editForm";
+//    }
+//
+//    @PostMapping("/edit/{id}")
+//    public String editBrand(@PathVariable UUID id, @ModelAttribute BrandDTO brandDTO) {
+//        brandService.updateBrand(id, brandDTO);
+//        return "redirect:/brands";
+//    }
 }

@@ -39,8 +39,8 @@ public class BrandService {
         return brandMapper.toDTO(brand);
     }
 
-    public BrandDTO addBrand(BrandDTO brandDto) {
-        Brand brand = modelMapper.map(brandDto, Brand.class);
+    public BrandDTO addBrand(BrandDTO brandDTO) {
+        Brand brand = modelMapper.map(brandDTO, Brand.class);
         Brand addBrand = brandRepository.saveAndFlush(brand);
         return modelMapper.map(addBrand, BrandDTO.class);
     }
@@ -54,15 +54,19 @@ public class BrandService {
                 .orElseThrow(() -> new IllegalArgumentException("dsd"));
     }
 
+    public BrandDTO brandDetails(String brandName) {
+        return modelMapper.map(brandRepository.findBrandByName(brandName).orElse(null), BrandDTO.class);
+    }
+
     public BrandDTO saveBrand(BrandDTO brand) {
         return brandMapper.toDTO(brandRepository.saveAndFlush(brandMapper.toEntity(brand)));
     }
 
-    public void deleteBrand(UUID id) {
+    public void deleteBrand(String brandName) {
         try {
-            brandRepository.deleteById(id);
+            brandRepository.deleteByName(brandName);
         } catch (EmptyResultDataAccessException e) {
-            System.out.println("Error: there is no element with " + id + " id");
+            System.out.println("Error: there is no element with " + brandName + " name");
         }
     }
 }

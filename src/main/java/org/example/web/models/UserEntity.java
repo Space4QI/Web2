@@ -24,7 +24,7 @@ public class UserEntity extends TimeEntity {
 
     private String imageURL;
 
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "userRole_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private UserRole userRole;
@@ -101,6 +101,7 @@ public class UserEntity extends TimeEntity {
         this.userRole = userRole;
     }
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "seller", cascade = CascadeType.REMOVE)
     public List<Offer> getOffers() {
         return offers;
     }

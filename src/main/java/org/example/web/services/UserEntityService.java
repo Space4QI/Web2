@@ -1,10 +1,15 @@
 package org.example.web.services;
 
+import org.example.web.DTO.BrandDTO;
+import org.example.web.DTO.ModelDTO;
 import org.example.web.DTO.UserEntityDTO;
 import org.example.web.mappers.UserEntityMapper;
+import org.example.web.models.Brand;
+import org.example.web.models.Model;
 import org.example.web.models.UserEntity;
 import org.example.web.repositories.UserEntityRepository;
 import org.example.web.repositories.UserRoleRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -21,15 +26,24 @@ public class UserEntityService {
 
     private final UserEntityMapper userEntityMapper;
 
+    private final ModelMapper modelMapper;
+
     private final UserRoleRepository userRoleRepository;
 
     private final UserRoleService userRoleService;
 
-    public UserEntityService(UserEntityRepository userEntityRepository, UserEntityMapper userEntityMapper, UserRoleRepository userRoleRepository, UserRoleService userRoleService) {
+    public UserEntityService(UserEntityRepository userEntityRepository, UserEntityMapper userEntityMapper, ModelMapper modelMapper, UserRoleRepository userRoleRepository, UserRoleService userRoleService) {
         this.userEntityRepository = userEntityRepository;
         this.userEntityMapper = userEntityMapper;
+        this.modelMapper = modelMapper;
         this.userRoleRepository = userRoleRepository;
         this.userRoleService = userRoleService;
+    }
+
+    public UserEntityDTO addUserEntity(UserEntityDTO userEntityDTO) {
+        UserEntity userEntity = modelMapper.map(userEntityDTO, UserEntity.class);
+        UserEntity addUser = userEntityRepository.saveAndFlush(userEntity);
+        return modelMapper.map(addUser, UserEntityDTO.class);
     }
 
     public List<UserEntityDTO> getAllUserEntity() {
@@ -101,11 +115,15 @@ public class UserEntityService {
 
     }
 
-    public void deleteUserEntity(UUID id) {
+    public UserEntityDTO userEntityDetails(String userEntityUsername) {
+        return modelMapper.map(userEntityRepository.findUserEntityByUsername(userEntityUsername).orElse(null), UserEntityDTO.class);
+    }
+
+    public void deleteUserEntity(String userEntityUsername) {
         try {
-            userEntityRepository.deleteById(id);
+            userEntityRepository.deleteByUsername(userEntityUsername);
         } catch (EmptyResultDataAccessException e) {
-            System.out.println("Error: there is no element with " + id + " id");
+            System.out.println("Error: there is no element with " + userEntityUsername + " username");
         }
     }
 }

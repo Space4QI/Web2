@@ -1,5 +1,7 @@
 package org.example.web.DTO;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 
 
@@ -16,6 +18,7 @@ public class UserRoleDTO {
     public UserRoleDTO() {
     }
 
+    @NotNull(message = "Choose the roleType")
     public String getRoleType() {
         return roleType;
     }

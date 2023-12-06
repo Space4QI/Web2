@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 public class UserRole extends BaseEntity {
-    @OneToMany(mappedBy = "userRole", targetEntity = UserEntity.class, cascade = {CascadeType.MERGE})
+    @OneToMany(mappedBy = "userRole", targetEntity = UserEntity.class, cascade = {CascadeType.ALL})
     private List<UserEntity> users;
 
     @Enumerated(EnumType.STRING)
@@ -33,6 +33,7 @@ public class UserRole extends BaseEntity {
 
     }
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "role", cascade = CascadeType.ALL)
     public List<UserEntity> getUsers() {
         return users;
     }

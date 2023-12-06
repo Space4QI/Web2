@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head"/>
+<body class="d-flex flex-column h-100 min-vh-100">
+<div th:replace="fragments/navbar">Navbar</div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="row row-cols-1 row-cols-md-4 g-4 mt-3">
+<!--                <h2 class="text-center text-dark mt-5">All models</h2>-->
+                    <div th:each="m : ${allModels}" class="col mb-3">
+                        <div class="border-info card d-flex align-items-center flex-column bg-text">
+                            <img src="/pic/19ad.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 th:text="'Name: ' + ${m.name}"></h5>
+                                <h5 th:text="'Category: ' + ${m.categoryType}"></h5>
+<!--                                <h5 th:text="'Image URL: ' + ${m.getImageUrl()}"></h5>-->
+<!--                                <h5 th:text="'Start Year: ' + ${m.startYear}"></h5>-->
+<!--                                <h5 th:text="'End Year: ' + ${m.endYear}"></h5>-->
+                                <h5 th:text="'Brand: ' + ${m.brandName}"></h5>
+                                <a th:href="@{/model/model-details/{id}(id=${m.name})}" class="btn btn-danger">Details info</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="fragments/footer"/>
+</body>
+</html>

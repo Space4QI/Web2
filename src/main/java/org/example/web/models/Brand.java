@@ -2,6 +2,7 @@ package org.example.web.models;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 
 import java.time.LocalDate;
@@ -9,7 +10,7 @@ import java.util.List;
 
 @Entity
 public class Brand extends TimeEntity {
-    @OneToMany(mappedBy = "brand", targetEntity = Model.class, cascade = {CascadeType.MERGE})
+    @OneToMany(mappedBy = "brand", targetEntity = Model.class, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     private List<Model> models;
 
     private String name;
@@ -32,6 +33,7 @@ public class Brand extends TimeEntity {
         this.name = name;
     }
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "brand", cascade = CascadeType.REMOVE)
     public List<Model> getModels() {
         return models;
     }

@@ -1,13 +1,20 @@
 package org.example.web.services;
 
+import org.example.web.DTO.ModelDTO;
+import org.example.web.DTO.Offer2DTO;
 import org.example.web.DTO.OfferDTO;
+import org.example.web.DTO.UserEntityDTO;
 import org.example.web.mappers.OfferMapper;
+import org.example.web.models.Model;
 import org.example.web.models.Offer;
+import org.example.web.models.UserEntity;
 import org.example.web.repositories.ModelRepository;
 import org.example.web.repositories.OfferRepository;
 import org.example.web.repositories.UserEntityRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -22,16 +29,19 @@ public class OfferService {
 
     private final OfferMapper offerMapper;
 
+    private final ModelMapper modelMapper;
+
     private final UserEntityRepository userEntityRepository;
 
     private final ModelRepository modelRepository;
 
 
-    public OfferService(OfferRepository offerRepository, OfferMapper offerMapper, UserEntityRepository userEntityRepository, ModelRepository modelRepository) {
+    public OfferService(OfferRepository offerRepository, OfferMapper offerMapper, ModelMapper modelMapper, UserEntityRepository userEntityRepository, ModelRepository modelRepository) {
         this.offerRepository = offerRepository;
         this.offerMapper = offerMapper;
         this.userEntityRepository = userEntityRepository;
         this.modelRepository = modelRepository;
+        this.modelMapper = modelMapper;
     }
 
     public List<OfferDTO> getAllOffer() {
@@ -39,6 +49,12 @@ public class OfferService {
                 .stream()
                 .map(offerMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public Offer2DTO addOffer(Offer2DTO offer2DTO) {
+        Offer offer = modelMapper.map(offer2DTO, Offer.class);
+        Offer addOffer = offerRepository.saveAndFlush(offer);
+        return modelMapper.map(addOffer, Offer2DTO.class);
     }
 
     public OfferDTO getOfferById(UUID id) {
@@ -103,11 +119,19 @@ public class OfferService {
         return offerMapper.toDTO(save);
     }
 
-    public void deleteOffer(UUID id) {
+    public OfferDTO offerDetails(String offerId) {
+        return modelMapper.map(offerRepository.findOfferById(offerId).orElse(null), OfferDTO.class);
+    }
+
+    public List<Offer> getOffersInPriceRange(double minPrice, double maxPrice) {
+        return offerRepository.findByPriceBetween(minPrice, maxPrice);
+    }
+
+    public void deleteOffer(String offerId) {
         try {
-            offerRepository.deleteById(id);
+            offerRepository.deleteById(offerId);
         } catch (EmptyResultDataAccessException e) {
-            System.out.println("Error: there is no element with " + id + " id");
+            System.out.println("Error: there is no element with " + offerId + " id");
         }
     }
 }

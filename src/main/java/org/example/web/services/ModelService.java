@@ -5,6 +5,7 @@ import org.example.web.mappers.ModelsMapper;
 import org.example.web.models.Model;
 import org.example.web.repositories.BrandRepository;
 import org.example.web.repositories.ModelRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +22,15 @@ public class ModelService {
 
     private final ModelsMapper modelsMapper;
 
+    private final ModelMapper modelMapper;
+
     private final BrandRepository brandRepository;
 
-    public ModelService(ModelRepository modelRepository, ModelsMapper modelsMapper, BrandRepository brandRepository) {
+    public ModelService(ModelRepository modelRepository, ModelsMapper modelsMapper, ModelMapper modelMapper, BrandRepository brandRepository) {
         this.modelRepository = modelRepository;
         this.modelsMapper = modelsMapper;
         this.brandRepository = brandRepository;
+        this.modelMapper = modelMapper;
     }
 
     public List<ModelDTO> getAllModels() {
@@ -43,6 +47,13 @@ public class ModelService {
         } else {
             throw new NoSuchElementException("Model with id " + id + " not found");
         }
+    }
+
+    public void addModel(ModelDTO modelDTO) {
+        Model model = modelMapper.map(modelDTO, Model.class);
+        model.setBrand(brandRepository.findBrandByName(String.valueOf(modelDTO.getBrandName())).orElse(null));
+
+        modelRepository.saveAndFlush(model);
     }
 
     public ModelDTO updateModel(ModelDTO updatedModel, UUID id) {
@@ -78,11 +89,15 @@ public class ModelService {
         return modelsMapper.toDTO(save);
     }
 
-    public void deleteModel(UUID id) {
+    public ModelDTO modelDetails(String modelName) {
+        return modelMapper.map(modelRepository.findModelByName(modelName).orElse(null), ModelDTO.class);
+    }
+
+    public void deleteModel(String modelName) {
         try {
-            modelRepository.deleteById(id);
+            modelRepository.deleteByName(modelName);
         } catch (EmptyResultDataAccessException e) {
-            System.out.println("Error: there is no element with " + id + " id");
+            System.out.println("Error: there is no element with " + modelName + " name");
         }
     }
 }

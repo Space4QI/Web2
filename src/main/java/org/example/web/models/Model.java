@@ -1,6 +1,9 @@
 package org.example.web.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -20,7 +23,7 @@ public class Model extends TimeEntity {
 
     public enum CategoryType {
         CAR(0),
-        Buss(10),
+        Bus(10),
         Truck(20),
         Motorcycle(30);
 
@@ -40,7 +43,7 @@ public class Model extends TimeEntity {
 
     private int endYear;
 
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "brand_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Brand brand;
@@ -59,6 +62,7 @@ public class Model extends TimeEntity {
     public Model() {
 
     }
+
 
     public String getName() {
         return name;
@@ -108,6 +112,7 @@ public class Model extends TimeEntity {
         this.categoryType = categoryType;
     }
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "model", cascade = CascadeType.REMOVE)
     public List<Offer> getOffers() {
         return offers;
     }

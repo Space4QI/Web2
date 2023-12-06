@@ -1,33 +1,42 @@
 <nav class="navbar navbar-expand-lg bg-dark">
   <div class="navbar d-flex justify-content-center mx-auto" id="navbarNavAltMarkup">
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <li class="nav-item">
-        <a class="nav-item nav-link text-white" href="/">Home page</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-item nav-link text-white" href="/brands/add">Add Brand</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-item nav-link text-white" href="/model/add">Add Model</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-item nav-link text-white" href="/userEntity/add">Add User</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-item nav-link text-white" href="/offer/add">Add Offer</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-item nav-link text-white" href="/brands/all">All brand's</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-item nav-link text-white" href="/model/all">All model's</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-item nav-link text-white" href="/userEntity/all">All user's</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-item nav-link text-white" href="/offer/all">All offer's</a>
-      </li>
-    </ul>
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active text-white" aria-current="page" href="/">Home page</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Administration Panel
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/brands/add">Add Brand</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/model/add">Add Model</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/userEntity/add">Add User</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/offer/add">Add Offer</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              User Panel
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/brands/all">All Brand's</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/model/all">All Model's</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/userEntity/all">All User's</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/offer/all">All Offer's</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </nav>
+

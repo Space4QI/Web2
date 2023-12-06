@@ -6,10 +6,7 @@
 <main class="flex-shrink-0">
     <div class="container">
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="jumbotron text-center rounded col-md-12 align-self-center pt-5">
-                <h2 class="text-center text-dark mt-5">All offers</h2>
-
+            <div class="d-flex justify-content-center align-items-center mt-5 mb-5">
                 <!-- Форма фильтрации по ценовому диапазону -->
                 <form th:action="@{/offers}" method="get">
                     <label for="minPrice">Min Price:</label>
@@ -20,25 +17,48 @@
 
                     <button type="submit">Filter</button>
                 </form>
-
-                <div th:if="${not #lists.isEmpty(allOffers)}">
-                    <div class="row mb-4 d-flex justify-content-around">
-                        <div th:each="o : ${allOffers}" class="col-md-4 d-flex flex-column bg-text mb-5 rounded">
-<!--                            <h2 th:text="'Description: ' + *{o.description}"></h2>-->
-                            <h4 th:text="'Engine: ' + *{o.engineType}"></h4>
-<!--                            <h4 th:text="'ImageURL: ' + *{o.imageUrl}"></h4>-->
-                            <h4 th:text="'Mileage: ' + *{o.mileage}"></h4>
-                            <h4 th:text="'Price: ' + *{o.price}"></h4>
-                            <h4 th:text="'Transmission: ' + *{o.transmissionType}"></h4>
-                            <h4 th:text="'Year: ' + *{o.year}"></h4>
-<!--                            <h4 th:text="'Model: ' + *{o.model}"></h4>-->
-<!--                            <h4 th:text="'Seller: ' + *{o.seller}"></h4>-->
-                            <h4><a class="btn-block"
-                                   th:href="@{/offer/offer-details/{id}(id=${o.id})}">Detail
-                                info</a></h4>
+            </div>
+            <div th:each="o : ${allOffers}" class="mb-3">
+                <div class="card mb-3 mt-3" style="max-width: 100%;">
+                    <div class="row g-0">
+                        <div class="col-md-5 d-flex justify-content-center align-items-center">
+                            <img src="/pic/jekich3.0.jpg" class="img-fluid rounded-start p-3" alt="...">
+                        </div>
+                        <div class="col-md-7">
+                                <div class="card-body">
+                                    <h2 th:text="'Description: '"></h2>
+                                    <h4 th:text="'Engine: ' + *{o.engineType}"></h4>
+                                    <h4 th:text="'Mileage: ' + *{o.mileage}"></h4>
+                                    <h4 th:text="'Price: ' + *{o.price}"></h4>
+                                    <h4 th:text="'Transmission: ' + *{o.transmissionType}"></h4>
+                                    <h4 th:text="'Year: ' + *{o.year}"></h4>
+                                    <a class="btn btn-danger"
+                                       th:href="@{/offer/offer-details/{id}(id=${o.id})}"> Detail
+                                        info</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+            </div>
+
+<!--                <div th:if="${not #lists.isEmpty(allOffers)}">-->
+<!--                    <div class="row mb-4 d-flex justify-content-around">-->
+<!--                        <div th:each="o : ${allOffers}" class="col mb-3">-->
+<!--&lt;!&ndash;                            <h2 th:text="'Description: ' + *{o.description}"></h2>&ndash;&gt;-->
+<!--                            <h4 th:text="'Engine: ' + *{o.engineType}"></h4>-->
+<!--&lt;!&ndash;                            <h4 th:text="'ImageURL: ' + *{o.imageUrl}"></h4>&ndash;&gt;-->
+<!--                            <h4 th:text="'Mileage: ' + *{o.mileage}"></h4>-->
+<!--                            <h4 th:text="'Price: ' + *{o.price}"></h4>-->
+<!--                            <h4 th:text="'Transmission: ' + *{o.transmissionType}"></h4>-->
+<!--                            <h4 th:text="'Year: ' + *{o.year}"></h4>-->
+<!--&lt;!&ndash;                            <h4 th:text="'Model: ' + *{o.model}"></h4>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <h4 th:text="'Seller: ' + *{o.seller}"></h4>&ndash;&gt;-->
+<!--                            <h4><a class="btn-block"-->
+<!--                                   th:href="@{/offer/offer-details/{id}(id=${o.id})}">Detail-->
+<!--                                info</a></h4>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div th:if="${#lists.isEmpty(allOffers)}">
                     <p>No offers match the specified criteria.</p>
                 </div>

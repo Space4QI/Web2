@@ -1,0 +1,117 @@
+<head th:replace="fragments/head"/>
+<body class="d-flex flex-column h-100">
+<div th:replace="fragments/navbar">Navbar</div>
+<div class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="jumbotron text-center rounded col-md-12 align-self-center pt-5">
+                <div class="justify-content-center">
+                    <h1>Add Model</h1>
+                </div>
+                <form th:action="@{/model/add}"
+                      th:method="post"
+                      th:object="${modelModel}"
+                      class="m-md-auto w-50 pb-3">
+
+                    <div class="mb-3">
+                        <label class="form-label" for="name">Model Name</label>
+                        <input th:field="*{name}"
+                               th:errorclass="is-invalid"
+                               type="text" class="form-control text-center"
+                               id="name" name="name"/>
+                        <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">Error message</small>
+                    </div>
+
+                    <fieldset class="mb-3">
+                        <legend>Choose Category Type</legend>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input th:field="*{categoryType}"
+                                       th:value="CAR"
+                                       th:errorclass="is-invalid"
+                                       type="radio" class="form-check-input" name="categoryType"/>
+                                <span>Car</span>
+                            </label>
+                        </div>
+                        <div class="form-check disabled">
+                            <label class="form-check-label">
+                                <input th:field="*{categoryType}"
+                                       th:value="Bus"
+                                       th:errorclass="is-invalid"
+                                       type="radio" class="form-check-input" name="categoryType"/>
+                                <span>Bus</span>
+                            </label>
+                        </div>
+                        <div class="form-check disabled">
+                            <label class="form-check-label">
+                                <input th:field="*{categoryType}"
+                                       th:value="Truck"
+                                       th:errorclass="is-invalid"
+                                       type="radio" class="form-check-input " name="categoryType"/>
+                                <span>Truck</span>
+                            </label>
+                        </div>
+                        <div class="form-check disabled">
+                            <label class="form-check-label">
+                                <input th:field="*{categoryType}"
+                                       th:value="Motorcecle"
+                                       th:errorclass="is-invalid"
+                                       type="radio" class="form-check-input " name="categoryType"/>
+                                <span>Motorcycle</span>
+                            </label>
+                        </div>
+                        <small th:if="${#fields.hasErrors('categoryType')}" th:errors="*{categoryType}"
+                               class="text-danger">Error message</small>
+                    </fieldset>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="imageURL">Image URL</label>
+                        <input th:field="*{imageUrl}"
+                               th:errorclass="is-invalid"
+                               type="text" class="form-control text-center"
+                               id="imageURL" name="imageURL"/>
+                        <small th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}" class="text-danger">Error message</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="startYear">Start Year</label>
+                        <input th:field="*{startYear}"
+                               th:errorclass="is-invalid"
+                               type="number" class="form-control text-center"
+                               id="startYear" name="startYear"/>
+                        <small th:if="${#fields.hasErrors('startYear')}" th:errors="*{startYear}" class="text-danger">Error message</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="endYear">End Year</label>
+                        <input th:field="*{endYear}"
+                               th:errorclass="is-invalid"
+                               type="number" class="form-control text-center"
+                               id="endYear" name="endYear"/>
+                        <small th:if="${#fields.hasErrors('endYear')}" th:errors="*{endYear}" class="text-danger">Error message</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="brand">Brand</label>
+                        <select multiple="false" class="form-control text-center"
+                                id="brand" name="brandName" th:field="*{brandName}">
+                            <option th:each="m : ${availableBrand}"
+                                    th:value="${m.name}"
+                                    th:text="${m.name}">Brand name
+                            </option>
+                        </select>
+                        <small th:if="${#fields.hasErrors('brandName')}" th:errors="*{brandName}" class="text-danger">Error message</small>
+
+                    </div>
+
+
+
+                    <button type="submit" class="btn btn-danger">Add Model</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="fragments/footer"/>
+

@@ -1,0 +1,36 @@
+<head th:replace="fragments/head"/>
+<body class="d-flex flex-column h-100">
+<div th:replace="fragments/navbar">Navbar</div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <main class="jumbotron text-center rounded col-md-12 align-self-center pt-5">
+                <div class="justify-content-center">
+                    <h1>Offer Details</h1>
+                </div>
+                <div class="row bg-white rounded mb-3 mt-10">
+                    <div class="col-md-6">
+                        <h2>Offer</h2>
+                        <h4 th:text="'Description: ' + ${offerDetails.description}"></h4>
+                        <h4 th:text="'ImageURL: ' + ${offerDetails.imageUrl}"></h4>
+                        <h4 th:text="'Mileage: ' + ${offerDetails.mileage}"></h4>
+                        <h4 th:text="'Price: ' + ${offerDetails.price}"></h4>
+                        <h4 th:text="'Year: ' + ${offerDetails.year}"></h4>
+                        <h4 th:text="'Seller: ' + ${offerDetails.seller}"></h4>
+                        <h4 th:text="'Model: ' + ${offerDetails.model}"></h4>
+                        <h4 th:text="'Transmission: ' + ${offerDetails.transmissionType}"></h4>
+                        <h4 th:text="'Engine: ' + ${offerDetails.engineType}"></h4>
+                        <div class="align-bottom">
+                            <a class="btn btn-danger align-bottom"
+                               th:href="@{/offer/offer-delete/{offer-id}(offer-id=${offerDetails.id})}">Delete
+                                offer</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6"><img src="/pic/jekich3.0.jpg" height="350px"></div>
+                </div>
+            </main>
+        </div>
+    </div>
+</main>
+<footer th:replace="fragments/footer"/>

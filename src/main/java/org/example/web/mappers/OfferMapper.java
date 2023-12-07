@@ -1,6 +1,5 @@
 package org.example.web.mappers;
 
-import org.example.web.DTO.Offer2DTO;
 import org.example.web.DTO.OfferDTO;
 import org.example.web.models.Offer;
 import org.modelmapper.ModelMapper;
@@ -24,9 +23,6 @@ public class OfferMapper {
         return offerMap.map(input, Offer.class);
     }
 
-    public Offer toEntity (Offer2DTO input) {
-        return offerMap.map(input, Offer.class);
-    }
 
 
 }

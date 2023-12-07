@@ -1,7 +1,6 @@
 package org.example.web.services;
 
 import org.example.web.DTO.ModelDTO;
-import org.example.web.DTO.Offer2DTO;
 import org.example.web.DTO.OfferDTO;
 import org.example.web.DTO.UserEntityDTO;
 import org.example.web.mappers.OfferMapper;
@@ -51,10 +50,10 @@ public class OfferService {
                 .collect(Collectors.toList());
     }
 
-    public Offer2DTO addOffer(Offer2DTO offer2DTO) {
-        Offer offer = modelMapper.map(offer2DTO, Offer.class);
+    public OfferDTO addOffer(OfferDTO offerDTO) {
+        Offer offer = modelMapper.map(offerDTO, Offer.class);
         Offer addOffer = offerRepository.saveAndFlush(offer);
-        return modelMapper.map(addOffer, Offer2DTO.class);
+        return modelMapper.map(addOffer, OfferDTO.class);
     }
 
     public OfferDTO getOfferById(UUID id) {

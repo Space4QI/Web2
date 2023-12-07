@@ -101,7 +101,7 @@ public class UserEntity extends TimeEntity {
         this.userRole = userRole;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "seller", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "seller", cascade = CascadeType.MERGE)
     public List<Offer> getOffers() {
         return offers;
     }

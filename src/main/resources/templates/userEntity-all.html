@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head"/>
 <body class="d-flex flex-column h-100">
 <div th:replace="fragments/navbar">Navbar</div>
@@ -16,6 +14,7 @@
 <!--                            <h4 th:text="'Password: ' + *{u.password}"></h4>-->
 <!--                            <h4 th:text="'ImageURL: ' + *{u.imageUrl}"></h4>-->
                            <a th:href="@{/userEntity/userEntity-details/{id}(id=${u.username})}" class="btn btn-danger">Details info</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -23,5 +22,3 @@
     </div>
 </main>
 <footer th:replace="fragments/footer"/>
-</body>
-</html>

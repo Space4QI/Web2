@@ -112,7 +112,7 @@ public class Model extends TimeEntity {
         this.categoryType = categoryType;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "model", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "model", cascade = CascadeType.MERGE)
     public List<Offer> getOffers() {
         return offers;
     }

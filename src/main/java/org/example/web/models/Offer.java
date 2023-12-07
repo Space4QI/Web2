@@ -70,11 +70,11 @@ public class Offer extends TimeEntity {
 
     private LocalDate year;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "model_id")
     private Model model;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "seller_id")
     private UserEntity seller;
 

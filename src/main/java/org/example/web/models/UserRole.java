@@ -6,8 +6,10 @@ import java.util.List;
 
 @Entity
 public class UserRole extends BaseEntity {
-    @OneToMany(mappedBy = "userRole", targetEntity = UserEntity.class, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "name", targetEntity = UserEntity.class, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     private List<UserEntity> users;
+
+    private String name;
 
     @Enumerated(EnumType.STRING)
     public RoleType roleType;
@@ -23,9 +25,10 @@ public class UserRole extends BaseEntity {
         }
     }
 
-    public UserRole(String id, List<UserEntity> users, RoleType roleType) {
+    public UserRole(String id, List<UserEntity> users, String name, RoleType roleType) {
         super(id);
         this.users = users;
+        this.name = name;
         this.roleType = roleType;
     }
 
@@ -48,6 +51,14 @@ public class UserRole extends BaseEntity {
 
     public void setRoleType(RoleType roleType) {
         this.roleType = roleType;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

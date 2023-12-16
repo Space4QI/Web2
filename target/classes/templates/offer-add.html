@@ -64,25 +64,36 @@
                             message</small>
                     </div>
 
+
+
                     <div class="mb-3">
                         <label class="form-label" for="seller">Seller</label>
-                        <input th:field="*{seller}"
-                               th:errorclass="is-invalid"
-                               type="text" class="form-control text-center"
-                               id="seller" aria-describedby="seller" name="seller"/>
-                        <small th:if="${#fields.hasErrors('seller')}" th:errors="*{seller}" class="text-danger">Error
+                        <select multiple="false" class="form-control text-center"
+                                id="seller" name="name" th:field="*{seller}">
+                            <option th:each="s : ${sellers}"
+                                    th:value="${s.username}"
+                                    th:text="${s.username}">Seller name
+                            </option>
+                        </select>
+                        <small th:if="${#fields.hasErrors('seller')}" th:errors="*{seller}"
+                               class="text-danger">Error
                             message</small>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="model">Model</label>
-                        <input th:field="*{model}"
-                               th:errorclass="is-invalid"
-                               type="text" class="form-control text-center"
-                               id="model" aria-describedby="model" name="model"/>
-                        <small th:if="${#fields.hasErrors('model')}" th:errors="*{model}" class="text-danger">Error
+                        <select multiple="false" class="form-control text-center"
+                                id="model" name="name" th:field="*{model}">
+                            <option th:each="m : ${models}"
+                                    th:value="${m.name}"
+                                    th:text="${m.name}">Model name
+                            </option>
+                        </select>
+                        <small th:if="${#fields.hasErrors('model')}" th:errors="*{model}"
+                               class="text-danger">Error
                             message</small>
                     </div>
+
 
                     <fieldset class="mb-3">
                         <legend>Choose Transmission Type</legend>

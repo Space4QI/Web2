@@ -5,14 +5,18 @@ import org.example.web.mappers.BrandMapper;
 import org.example.web.models.Brand;
 import org.example.web.repositories.BrandRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.cache.annotation.CacheEvict;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@EnableCaching
 public class BrandService {
 
     private final BrandRepository brandRepository;
@@ -27,7 +31,13 @@ public class BrandService {
         this.modelMapper = modelMapper;
     }
 
+    @Cacheable("brand")
     public List<BrandDTO> getAllBrands() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return brandRepository.findAll()
                 .stream()
                 .map(brandMapper::toDTO)
@@ -39,12 +49,14 @@ public class BrandService {
         return brandMapper.toDTO(brand);
     }
 
+    @CacheEvict(cacheNames = "brand", allEntries = true)
     public BrandDTO addBrand(BrandDTO brandDTO) {
         Brand brand = modelMapper.map(brandDTO, Brand.class);
         Brand addBrand = brandRepository.saveAndFlush(brand);
         return modelMapper.map(addBrand, BrandDTO.class);
     }
 
+    @CacheEvict(cacheNames = "brand", allEntries = true)
     public BrandDTO updateBrand(UUID id, BrandDTO updatedBrand) {
         return brandRepository.findById(id)
                 .map(brand -> {
@@ -62,6 +74,7 @@ public class BrandService {
         return brandMapper.toDTO(brandRepository.saveAndFlush(brandMapper.toEntity(brand)));
     }
 
+    @CacheEvict(cacheNames = "brand", allEntries = true)
     public void deleteBrand(String brandName) {
         try {
             brandRepository.deleteByName(brandName);

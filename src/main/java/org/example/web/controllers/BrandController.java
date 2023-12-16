@@ -1,6 +1,9 @@
 package org.example.web.controllers;
 
 import jakarta.validation.Valid;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.web.DTO.BrandDTO;
 import org.example.web.services.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +14,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.UUID;
+
 
 @Controller
 @RequestMapping("/brands")
 public class BrandController {
+
+    private static final Logger LOG = LogManager.getLogger(Controller.class);
 
     private BrandService brandService;
 
@@ -35,8 +42,9 @@ public class BrandController {
     public BrandDTO initBrand() {return new BrandDTO();}
 
     @PostMapping("/add")
-    public String addBrand(@Valid BrandDTO brandModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String addBrand(@Valid BrandDTO brandModel, BindingResult bindingResult, RedirectAttributes redirectAttributes, Principal principal) {
 
+        LOG.log(Level.INFO, "Show add brand for " + principal.getName());
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("brandModel", brandModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.brandModel",
@@ -62,7 +70,8 @@ public class BrandController {
     }
 
     @GetMapping("/all")
-    public String getAll(Model model) {
+    public String getAll(Model model, Principal principal) {
+        LOG.log(Level.INFO, "Show all brand for " + principal.getName());
         model.addAttribute("brandPage", brandService.getAllBrands());
         return "brand-all";
     }

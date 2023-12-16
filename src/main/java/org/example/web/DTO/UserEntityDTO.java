@@ -2,6 +2,7 @@ package org.example.web.DTO;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import org.example.web.models.UserRole;
 
 public class UserEntityDTO {
     private String username;
@@ -12,16 +13,16 @@ public class UserEntityDTO {
 
     private String password;
 
-    private String userRole;
+    private UserRole name;
 
-    public UserEntityDTO(String username, String firstName, String lastName, boolean isActive, String imageUrl, String password, String userRole) {
+    public UserEntityDTO(String username, String firstName, String lastName, boolean isActive, String imageUrl, String password, UserRole name) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.isActive = isActive;
         this.imageUrl = imageUrl;
         this.password = password;
-        this.userRole = userRole;
+        this.name = name;
     }
 
     public UserEntityDTO() {
@@ -84,12 +85,12 @@ public class UserEntityDTO {
     }
 
     @NotEmpty(message = "Choose the userRole")
-    public String getUserRole() {
-        return userRole;
+    public UserRole getUserRole() {
+        return name;
     }
 
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
+    public void setUserRole(UserRole name) {
+        this.name = name;
     }
 
     @Override
@@ -101,7 +102,7 @@ public class UserEntityDTO {
                 ", isActive=" + isActive +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", password='" + password + '\'' +
-                ", userRole=" + userRole +
+                ", userRole=" + name +
                 '}';
     }
 }

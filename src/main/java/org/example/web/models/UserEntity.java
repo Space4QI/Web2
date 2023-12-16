@@ -24,12 +24,16 @@ public class UserEntity extends TimeEntity {
 
     private String imageURL;
 
+    private String email;
+
+    private int age;
+
     @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "userRole_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private UserRole userRole;
+    private UserRole name;
 
-    public UserEntity(String id, LocalDate created, LocalDate modified, List<Offer> offers, boolean isActive, String username, String password, String firstName, String lastName, String imageURL, UserRole userRole) {
+    public UserEntity(String id, LocalDate created, LocalDate modified, List<Offer> offers, boolean isActive, String username, String password, String firstName, String lastName, String imageURL, String email, int age, UserRole name) {
         super(id, created, modified);
         this.offers = offers;
         this.isActive = isActive;
@@ -38,12 +42,15 @@ public class UserEntity extends TimeEntity {
         this.firstName = firstName;
         this.lastName = lastName;
         this.imageURL = imageURL;
-        this.userRole = userRole;
+        this.name = name;
+        this.email = email;
+        this.age = age;
     }
 
     public UserEntity() {
 
     }
+
 
     public boolean isActive() {
         return isActive;
@@ -94,11 +101,27 @@ public class UserEntity extends TimeEntity {
     }
 
     public UserRole getUserRole() {
-        return userRole;
+        return name;
     }
 
-    public void setUserRole(UserRole userRole) {
-        this.userRole = userRole;
+    public void setUserRole(UserRole name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "seller", cascade = CascadeType.MERGE)
@@ -120,7 +143,7 @@ public class UserEntity extends TimeEntity {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", imageURL='" + imageURL + '\'' +
-                ", userRole=" + userRole +
+                ", userRole=" + name +
                 '}';
     }
 }

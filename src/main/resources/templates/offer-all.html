@@ -6,7 +6,7 @@
         <div class="row">
             <div class="d-flex justify-content-center align-items-center mt-5 mb-5">
                 <!-- Форма фильтрации по ценовому диапазону -->
-                <form th:action="@{/offers}" method="get">
+                <form th:action="@{/offer/getFilteredOffers}" method="get">
                     <label for="minPrice">Min Price:</label>
                     <input type="text" id="minPrice" name="minPrice" />
 

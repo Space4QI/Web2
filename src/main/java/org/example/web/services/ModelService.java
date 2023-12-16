@@ -6,6 +6,9 @@ import org.example.web.models.Model;
 import org.example.web.repositories.BrandRepository;
 import org.example.web.repositories.ModelRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@EnableCaching
 public class ModelService {
 
     private final ModelRepository modelRepository;
@@ -33,6 +37,7 @@ public class ModelService {
         this.modelMapper = modelMapper;
     }
 
+    @Cacheable("model")
     public List<ModelDTO> getAllModels() {
         return modelRepository.findAll()
                 .stream()
@@ -49,6 +54,7 @@ public class ModelService {
         }
     }
 
+    @CacheEvict(cacheNames = "model", allEntries = true)
     public void addModel(ModelDTO modelDTO) {
         Model model = modelMapper.map(modelDTO, Model.class);
         model.setBrand(brandRepository.findBrandByName(String.valueOf(modelDTO.getBrandName())).orElse(null));
@@ -89,10 +95,12 @@ public class ModelService {
         return modelsMapper.toDTO(save);
     }
 
+    @Cacheable("model")
     public ModelDTO modelDetails(String modelName) {
         return modelMapper.map(modelRepository.findModelByName(modelName).orElse(null), ModelDTO.class);
     }
 
+    @CacheEvict(cacheNames = "model", allEntries = true)
     public void deleteModel(String modelName) {
         try {
             modelRepository.deleteByName(modelName);

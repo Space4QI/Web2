@@ -1,5 +1,6 @@
 package org.example.web.services;
 
+import org.example.web.DTO.AddOfferDTO;
 import org.example.web.DTO.ModelDTO;
 import org.example.web.DTO.OfferDTO;
 import org.example.web.DTO.UserEntityDTO;
@@ -11,6 +12,9 @@ import org.example.web.repositories.ModelRepository;
 import org.example.web.repositories.OfferRepository;
 import org.example.web.repositories.UserEntityRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
@@ -22,6 +26,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@EnableCaching
 public class OfferService {
 
     private final OfferRepository offerRepository;
@@ -43,17 +48,19 @@ public class OfferService {
         this.modelMapper = modelMapper;
     }
 
+
+    @Cacheable("offer")
     public List<OfferDTO> getAllOffer() {
         return offerRepository.findAll()
-                .stream()
-                .map(offerMapper::toDTO)
+                .stream().map(offer -> modelMapper.map(offer, OfferDTO.class))
                 .collect(Collectors.toList());
     }
 
-    public OfferDTO addOffer(OfferDTO offerDTO) {
-        Offer offer = modelMapper.map(offerDTO, Offer.class);
+    @CacheEvict(cacheNames = "offer", allEntries = true)
+    public AddOfferDTO addOffer(AddOfferDTO addOfferDTO) {
+        Offer offer = modelMapper.map(addOfferDTO, Offer.class);
         Offer addOffer = offerRepository.saveAndFlush(offer);
-        return modelMapper.map(addOffer, OfferDTO.class);
+        return modelMapper.map(addOffer, AddOfferDTO.class);
     }
 
     public OfferDTO getOfferById(UUID id) {
@@ -126,6 +133,7 @@ public class OfferService {
         return offerRepository.findByPriceBetween(minPrice, maxPrice);
     }
 
+    @CacheEvict(cacheNames = "offer", allEntries = true)
     public void deleteOffer(String offerId) {
         try {
             offerRepository.deleteById(offerId);

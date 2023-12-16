@@ -58,17 +58,24 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) {
         UserRole userRole = new UserRole();
+        userRole.setName("ADMIN");
         userRole.setRoleType(UserRole.RoleType.ADMIN);
+
+        UserRole userRole1 = new UserRole();
+        userRole1.setName("USER");
+        userRole1.setRoleType(UserRole.RoleType.USER);
         //UserRoleDTO userRoleDTO = userRoleService.saveUserRole(userRoleMapper.toDTO(userRole));
 
         UserEntity userEntity = new UserEntity();
         userEntity.setModified(LocalDate.now());
         userEntity.setCreated(LocalDate.now());
         userEntity.setUserRole(userRole);
-        userEntity.setUsername("meoow");
-        userEntity.setLastName("Dubr");
+        userEntity.setUsername("user");
+        userEntity.getEmail();
+        userEntity.setLastName("Userovich");
         userEntity.setImageURL("URL....");
-        userEntity.setFirstName("Jekich");
+        userEntity.setFirstName("User");
+        userEntity.setAge(22);
         userEntity.setPassword("12345");
         userEntity.setActive(true);
         //UserEntityDTO userEntityDTO = userEntityService.saveUserEntity(userEntityMapper.toDTO(userEntity));
@@ -76,12 +83,14 @@ public class DataInitializer implements CommandLineRunner {
 
         UserEntity userEntity1 = new UserEntity();
         userEntity1.setModified(LocalDate.now());
+
         userEntity1.setCreated(LocalDate.now());
-        userEntity1.setUserRole(userRole);
-        userEntity1.setUsername("kishlak");
-        userEntity1.setLastName("Ozerin");
+        userEntity1.setUserRole(userRole1);
+        userEntity1.setUsername("admin");
+        userEntity1.setLastName("Adminovich");
         userEntity1.setImageURL("URL123");
-        userEntity1.setFirstName("Kolya");
+        userEntity1.setFirstName("Admin");
+        userEntity1.setAge(30);
         userEntity1.setPassword("4321");
         userEntity1.setActive(true);
 
@@ -113,6 +122,30 @@ public class DataInitializer implements CommandLineRunner {
         model1.setCreated(LocalDate.now());
         model1.setModified(LocalDate.now());
         model1.setBrand(brand2);
+
+        Model model2 = new Model();
+        model2.setName("M4");
+        model2.setCategoryType(Model.CategoryType.CAR);
+        model2.setImageURL("https://www.example.com/images/model32243.jpg");
+        model2.setCreated(LocalDate.now());
+        model2.setModified(LocalDate.now());
+        model2.setBrand(brand2);
+
+        Model model3 = new Model();
+        model3.setName("M4");
+        model3.setCategoryType(Model.CategoryType.CAR);
+        model3.setImageURL("https://www.example.com/images/model32243.jpg");
+        model3.setCreated(LocalDate.now());
+        model3.setModified(LocalDate.now());
+        model3.setBrand(brand2);
+
+        Model model4 = new Model();
+        model4.setName("M4");
+        model4.setCategoryType(Model.CategoryType.CAR);
+        model4.setImageURL("https://www.example.com/images/model32243.jpg");
+        model4.setCreated(LocalDate.now());
+        model4.setModified(LocalDate.now());
+        model4.setBrand(brand2);
 
         Offer offer = new Offer();
         offer.setDescription("Right");

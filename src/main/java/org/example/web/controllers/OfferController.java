@@ -1,6 +1,7 @@
 package org.example.web.controllers;
 
 import jakarta.validation.Valid;
+import org.example.web.DTO.AddOfferDTO;
 import org.example.web.DTO.OfferDTO;
 import org.example.web.DTO.UserEntityDTO;
 import org.example.web.models.Offer;
@@ -45,7 +46,7 @@ public class OfferController {
 //    }
 
     @ModelAttribute("offerModel")
-    public OfferDTO initOffer() {return new OfferDTO();}
+    public AddOfferDTO initOffer() {return new AddOfferDTO();}
 
     @GetMapping("/add")
     public String addOffer(Model model) {
@@ -56,7 +57,7 @@ public class OfferController {
     }
 
     @PostMapping("/add")
-    String addOffer(@Valid OfferDTO offerModel, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    String addOffer(@Valid AddOfferDTO offerModel, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("offerModel", offerModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.offerModel",

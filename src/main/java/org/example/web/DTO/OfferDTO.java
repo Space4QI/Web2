@@ -5,16 +5,18 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
-public class OfferDTO {
+public class OfferDTO implements Serializable {
 
     private String id;
     private String description;
     private String imageUrl;
     private Integer mileage;
     private Double price;
-    private LocalDate year;
+    private LocalTime year;
 
     private UserEntityDTO seller;
 
@@ -23,24 +25,6 @@ public class OfferDTO {
     private String transmissionType;
 
     private String engineType;
-
-
-    public OfferDTO(String id, String description, String imageUrl, Integer mileage, Double price, LocalDate year, UserEntityDTO seller, ModelDTO model, String transmissionType, String engineType) {
-        this.id = id;
-        this.description = description;
-        this.imageUrl = imageUrl;
-        this.mileage = mileage;
-        this.price = price;
-        this.year = year;
-        this.seller = seller;
-        this.model = model;
-        this.transmissionType = transmissionType;
-        this.engineType = engineType;
-    }
-
-    public OfferDTO() {
-
-    }
 
     @NotEmpty(message = "Description must not be null or empty")
     @Size(min = 10, message = "Description must be at least 10 characters")
@@ -83,11 +67,11 @@ public class OfferDTO {
     }
 
     @NotNull(message = "StartYear must be not null or empty")
-    public LocalDate getYear() {
+    public LocalTime getYear() {
         return year;
     }
 
-    public void setYear(LocalDate year) {
+    public void setYear(LocalTime year) {
         this.year = year;
     }
 
@@ -131,21 +115,5 @@ public class OfferDTO {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "OfferDTO{" +
-                "id='" + id + '\'' +
-                ", description='" + description + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", mileage=" + mileage +
-                ", price=" + price +
-                ", year=" + year +
-                ", seller=" + seller +
-                ", model=" + model +
-                ", transmissionType='" + transmissionType + '\'' +
-                ", engineType='" + engineType + '\'' +
-                '}';
     }
 }

@@ -6,11 +6,11 @@ import java.util.List;
 
 
 public class UserRoleDTO {
-    private String roleType;
+    private String name;
     private List<UserEntityDTO> users;
 
-    public UserRoleDTO(String roleType, List<UserEntityDTO> users) {
-        this.roleType = roleType;
+    public UserRoleDTO(String name, List<UserEntityDTO> users) {
+        this.name = name;
         this.users = users;
     }
 
@@ -20,11 +20,11 @@ public class UserRoleDTO {
 
     @NotNull(message = "Choose the roleType")
     public String getRoleType() {
-        return roleType;
+        return name;
     }
 
     public void setRoleType(String roleType) {
-        this.roleType = roleType;
+        this.name = name;
     }
 
     public List<UserEntityDTO> getUsers() {
@@ -38,7 +38,7 @@ public class UserRoleDTO {
     @Override
     public String toString() {
         return "UserRoleDTO{" +
-                ", roleType='" + roleType + '\'' +
+                ", roleType='" + name + '\'' +
                 '}';
     }
 }

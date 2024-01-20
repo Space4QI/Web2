@@ -3,6 +3,7 @@ package org.example.web.controllers;
 import jakarta.validation.Valid;
 import org.example.web.DTO.BrandDTO;
 import org.example.web.DTO.ModelDTO;
+import org.example.web.DTO.UserEntityAddDTO;
 import org.example.web.DTO.UserEntityDTO;
 import org.example.web.models.UserEntity;
 import org.example.web.models.UserRole;
@@ -14,6 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,6 +26,8 @@ import java.util.UUID;
 @RequestMapping("/userEntity")
 public class UserEntityController {
 
+
+    private static final Logger LOG = LogManager.getLogger(Controller.class);
     private UserEntityService userEntityService;
 
     private final UserRoleService userRoleService;
@@ -55,7 +61,7 @@ public class UserEntityController {
     public UserEntityDTO initUser() {return new UserEntityDTO();}
 
     @PostMapping("/add")
-    public String addUser(@Valid UserEntityDTO userModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String addUser(@Valid UserEntityAddDTO userModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("userModel", userModel);
@@ -97,6 +103,20 @@ public class UserEntityController {
     @GetMapping("/userEntity-delete/{userEntity-username}")
     public String deleteUserEntity(@PathVariable("userEntity-username") String userEntityUsername) {
         userEntityService.deleteUserEntity(userEntityUsername);
+        return "redirect:/userEntity/all";
+    }
+
+    @GetMapping("/userEntity-edit/{userEntity-username}")
+    public String updateUserEntity(@PathVariable("userEntity-username") String uuid, Model model) {
+        UserEntityDTO userEntityDTO = userEntityService.findUserEntityByUsername(uuid);
+        model.addAttribute("userEntity", userEntityDTO);
+        return "userEntity-edit";
+    }
+
+    @PostMapping("/userEntity-edit")
+    public String updateUserEntity(@ModelAttribute("userEntity") UserEntityDTO userEntityDTO) {
+        LOG.info("Update Model method called with modelDTO: " + userEntityDTO);
+        userEntityService.saveUserEntity(userEntityDTO);
         return "redirect:/userEntity/all";
     }
 }

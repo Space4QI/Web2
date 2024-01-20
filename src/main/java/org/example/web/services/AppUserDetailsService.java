@@ -1,16 +1,14 @@
 package org.example.web.services;
 
 import org.example.web.models.UserEntity;
-import org.example.web.models.UserRole;
+import org.example.web.repositories.UserEntityRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.example.web.repositories.UserEntityRepository;
 
 import java.util.Collections;
-import java.util.stream.Collectors;
 
 public class AppUserDetailsService implements UserDetailsService {
     private UserEntityRepository userEntityRepository;

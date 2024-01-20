@@ -4,6 +4,8 @@ package org.example.web.controllers;
 import jakarta.validation.Valid;
 import org.example.web.DTO.UserRegistrationDTO;
 import org.example.web.models.UserEntity;
+import org.example.web.services.AuthService;
+import org.example.web.services.UserEntityService;
 import org.example.web.views.UserProfileView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.example.web.services.AuthService;
 
 import java.security.Principal;
 
@@ -25,12 +26,15 @@ public class AuthController {
 
     private AuthService authService;
 
+    private UserEntityService userEntityService;
+
     @Autowired
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, UserEntityService userEntityService) {
         this.authService = authService;
+        this.userEntityService = userEntityService;
     }
 
-    @ModelAttribute("userRegistrationDto")
+    @ModelAttribute("userRegistrationDTO")
     public UserRegistrationDTO initForm() {
         return new UserRegistrationDTO();
     }
@@ -41,20 +45,31 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String doRegister(@Valid UserRegistrationDTO userRegistrationDto,
+    public String doRegister(@Valid UserRegistrationDTO userRegistrationDTO,
                              BindingResult bindingResult,
-                             RedirectAttributes redirectAttributes) {
+                             Model model) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("userRegistrationDto", userRegistrationDto);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegistrationDto", bindingResult);
-
-            return "redirect:/users/register";
+            model.addAttribute("userRegistrationDTO", userRegistrationDTO);
+            return "register";
         }
 
-        this.authService.register(userRegistrationDto);
+        if (!authService.isUsernameUnique(userRegistrationDTO.getUsername())) {
+            model.addAttribute("usernameError", "Username is already taken");
+            model.addAttribute("userRegistrationDTO", userRegistrationDTO);
+            return "register";
+        }
+
+        if (!authService.isEmailUnique(userRegistrationDTO.getEmail())) {
+            model.addAttribute("emailError", "Email is already taken");
+            model.addAttribute("userRegistrationDTO", userRegistrationDTO);
+            return "register";
+        }
+
+        this.authService.register(userRegistrationDTO);
 
         return "redirect:/users/login";
     }
+
 
     @GetMapping("/login")
     public String login() {
@@ -83,8 +98,6 @@ public class AuthController {
                 userEntity.getFirstName(),
                 userEntity.getLastName(),
                 userEntity.getAge()
-
-
         );
 
         model.addAttribute("user", userProfileView);

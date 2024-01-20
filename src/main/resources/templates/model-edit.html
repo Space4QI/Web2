@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head"/>
+<body class="d-flex flex-column h-100 bg-white">
+<div th:replace="fragments/navbar">Navbar</div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="jumbotron text-center rounded col-md-8 pt-5 padding-add">
+                <div class="justify-content-center">
+                    <h1 class="text-black">Edit Model </h1>
+                </div>
+                <form th:action="@{/model/model-edit}" th:method="post" th:object="${model}" class="m-md-auto w-50 pb-3">
+                    <div class="mb-3">
+                        <label class="text-black form-label" for="name">Name</label>
+                        <input th:field="*{name}" th:errorclass="is-invalid" type="text" class="form-control text-center" id="name" aria-describedby="nameHelp" name="name"/>
+                        <small id="nameHelp" class="form-text text-muted">The name must contain at least 1 and no more than 20 characters.</small>
+                        <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">Error message</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-black form-label">Category Type</label>
+                        <select th:field="*{categoryType}" class="form-control">
+                            <option value="CAR">Car</option>
+                            <option value="Bus">Bus</option>
+                            <option value="Truck">Truck</option>
+                            <option value="Motorcycle">Motorcycle</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-black form-label" for="imageURL">Image URL</label>
+                        <input th:field="*{imageUrl}" type="text" class="form-control text-center" id="imageURL" name="imageURL"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-black form-label" for="startYear">Start Year</label>
+                        <input th:field="*{startYear}" type="number" class="form-control text-center" id="startYear" name="startYear"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-black form-label" for="endYear">End Year</label>
+                        <input th:field="*{endYear}" type="number" class="form-control text-center" id="endYear" name="endYear"/>
+                    </div>
+                    <button type="submit" class="btn btn-danger">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="fragments/footer"/>
+</body>
+</html>

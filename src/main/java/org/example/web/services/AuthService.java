@@ -1,18 +1,16 @@
 package org.example.web.services;
 
 
-import org.example.web.DTO.UserEntityDTO;
 import org.example.web.DTO.UserRegistrationDTO;
 import org.example.web.models.UserEntity;
+import org.example.web.models.UserRole;
 import org.example.web.repositories.UserEntityRepository;
 import org.example.web.repositories.UserRoleRepository;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.example.web.models.UserRole;
 
-
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,26 +26,26 @@ public class AuthService {
         this.userRoleRepository = userRoleRepository;
     }
 
-    public void register(UserRegistrationDTO registrationDTO) {
-        if (!registrationDTO.getPassword().equals(registrationDTO.getConfirmPassword())) {
-            throw new RuntimeException("passwords.match");
+    public void register(UserRegistrationDTO userRegistrationDTO) {
+        if (!userRegistrationDTO.getPassword().equals(userRegistrationDTO.getConfirmPassword())) {
+            throw new IllegalArgumentException("Passwords do not match");
         }
 
-        Optional<UserEntity> byEmail = this.userEntityRepository.findByEmail(registrationDTO.getEmail());
+        this.userEntityRepository.findByEmail(userRegistrationDTO.getEmail())
+                .ifPresent(existingUser -> {
+                    throw new DuplicateKeyException("Email is already in use");
+                });
 
-        if (byEmail.isPresent()) {
-            throw new RuntimeException("email.used");
-        }
-
-        var userRole = userRoleRepository.findUserRoleByName(UserRole.RoleType.USER.name()).orElseThrow();
+        UserRole userRole = userRoleRepository.findUserRoleByName(UserRole.RoleType.USER.name())
+                .orElseThrow(() -> new IllegalArgumentException("User role not found"));
 
         UserEntity userEntity = new UserEntity();
-
-        userEntity.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
-        userEntity.setFirstName(registrationDTO.getFirstName());
-        userEntity.setLastName(registrationDTO.getLastName());
+        userEntity.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
+        userEntity.setUsername(userRegistrationDTO.getUsername());
+        userEntity.setFirstName(userRegistrationDTO.getFirstName());
+        userEntity.setLastName(userRegistrationDTO.getLastName());
         userEntity.setUserRole(userRole);
-        userEntity.getEmail();
+        userEntity.setEmail(userRegistrationDTO.getEmail());
 
         this.userEntityRepository.save(userEntity);
     }
@@ -57,6 +55,14 @@ public class AuthService {
 //                registrationDTO.getLastName(),
 //                registrationDTO.getPassword(),
 //                registrationDTO.getConfirmPassword()
+
+    public boolean isUsernameUnique(String username) {
+        return userEntityRepository.findUserEntityByUsername(username).isEmpty();
+    }
+
+    public boolean isEmailUnique(String email) {
+        return userEntityRepository.findByEmail(email).isEmpty();
+    }
 
     public UserEntity getUser(String username) {
         return userEntityRepository.findUserEntityByUsername(username)

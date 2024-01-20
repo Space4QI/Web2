@@ -5,16 +5,11 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.io.Serializable;
-
-public class AddOfferDTO implements Serializable {
+public class AllOfferDTO {
 
     private String uuid;
-    private String description;
-    private String imageUrl;
     private Integer mileage;
     private Double price;
-    private String year;
 
     private String seller;
 
@@ -24,30 +19,6 @@ public class AddOfferDTO implements Serializable {
 
     private String engineType;
 
-    private String modified;
-
-    private String created;
-
-
-    @NotEmpty(message = "Description must not be null or empty")
-    @Size(min = 10, message = "Description must be at least 10 characters")
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @NotEmpty(message = "imageURL cannot be null or empty")
-    @Size(min = 10, message = "imageURL should be at least 10 characters long")
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 
     @NotNull(message = "Mileage must not be null or empty")
     @Min(value = 1, message = "Mileage must be a positive number")
@@ -67,15 +38,6 @@ public class AddOfferDTO implements Serializable {
 
     public void setPrice(Double price) {
         this.price = price;
-    }
-
-    @NotNull(message = "StartYear must be not null or empty")
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
     }
 
     public String getSeller() {
@@ -119,20 +81,5 @@ public class AddOfferDTO implements Serializable {
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
-
-    public String getModified() {
-        return modified;
-    }
-
-    public void setModified(String modified) {
-        this.modified = modified;
-    }
-
-    public String getCreated() {
-        return created;
-    }
-
-    public void setCreated(String created) {
-        this.created = created;
-    }
 }
+

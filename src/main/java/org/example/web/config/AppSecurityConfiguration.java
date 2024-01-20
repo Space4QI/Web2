@@ -1,10 +1,9 @@
 package org.example.web.config;
 
 
-import org.example.web.models.UserEntity;
 import org.example.web.models.UserRole;
 import org.example.web.repositories.UserEntityRepository;
-import org.example.web.services.UserEntityService;
+import org.example.web.services.AppUserDetailsService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.DelegatingSecurityContextRepository;
@@ -39,12 +37,14 @@ public class AppSecurityConfiguration {
                                 authorizeHttpRequests.
                                         requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                                         .permitAll().
-                                        requestMatchers("/", "/users/login", "/users/register", "/users/login-error")
+                                        requestMatchers("/", "/users/login", "/users/register", "/users/login-error", "/pic/abc.jpg", "/pic/racing-car.png")
                                         .permitAll().
                                         requestMatchers("/users/profile").authenticated().
-                                        requestMatchers("/model/add", "/model/model-delete/").hasRole(UserRole.RoleType.ADMIN.name()).
-                                        requestMatchers("/brands/add","/brands/brand-delete/","/model/add", "/model/model-delete/").hasRole(UserRole.RoleType.ADMIN.name()).
-                                        anyRequest().authenticated()
+                                        //requestMatchers("/model/add", "/model/model-delete/").hasRole(UserRole.RoleType.ADMIN.name()).
+                                                requestMatchers("/brands/add", "/brands/brand-delete/","/brands/brand-edit", "/model/add", "/model/model-delete/", "model/model-edit", "/offer/add", "/offer/offer-delete", "userEntity/add", "userEntity/userEntity-delete").hasRole(UserRole.RoleType.ADMIN.name()).
+                                        //requestMatchers("/brands/all", "/model/all", "/offer/all", "/user/all").hasRole(UserRole.RoleType.USER.name()).
+                                                anyRequest().authenticated()
+
                 )
                 .formLogin(
                         (formLogin) ->
@@ -80,6 +80,8 @@ public class AppSecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public UserDetailsService userDetailsService() { return new UserEntityService(userEntityRepository); }
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new AppUserDetailsService(userEntityRepository);
+    }
 }

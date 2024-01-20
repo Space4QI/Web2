@@ -4,10 +4,11 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.example.web.models.Model;
 
 import java.io.Serializable;
 
-public class AddOfferDTO implements Serializable {
+public class OfferDetailsDTO implements Serializable {
 
     private String uuid;
     private String description;
@@ -16,9 +17,9 @@ public class AddOfferDTO implements Serializable {
     private Double price;
     private String year;
 
-    private String seller;
+    private UserEntityDTO seller;
 
-    private String model;
+    private ModelDTO model;
 
     private String transmissionType;
 
@@ -78,19 +79,19 @@ public class AddOfferDTO implements Serializable {
         this.year = year;
     }
 
-    public String getSeller() {
+    public UserEntityDTO getSeller() {
         return seller;
     }
 
-    public void setSeller(String seller) {
+    public void setSeller(UserEntityDTO seller) {
         this.seller = seller;
     }
 
-    public String getModel() {
+    public ModelDTO getModel() {
         return model;
     }
 
-    public void setModel(String model) {
+    public void setModel(ModelDTO model) {
         this.model = model;
     }
 

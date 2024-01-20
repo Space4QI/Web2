@@ -14,12 +14,15 @@
                         <h2>Model</h2>
                         <h4 th:text="'Name: ' + ${modelDetails.name}"></h4>
                         <h4 th:text="'Category: ' + ${modelDetails.categoryType}"></h4>
-                        <h4 th:text="'Image URL: ' + ${modelDetails.imageUrl}"></h4>
                         <h4 th:text="'Start Year: ' + ${modelDetails.startYear}"></h4>
                         <h4 th:text="'End Year: ' + ${modelDetails.endYear}"></h4>
                         <h4 th:text="'Brand: ' + ${modelDetails.brandName}"></h4>
-                        <div class="align-bottom">
-                            <a class="btn btn-danger align-bottom" th:href="@{/model/model-delete/{model-name}(model-name=${modelDetails.name})}">Delete model</a>
+                        <div class="align-bottom" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                            <a class="btn btn-danger align-bottom" th:href="@{/model/model-edit/{model-name}(model-name=${modelDetails.name})}">Update model</a>
+                        </div>
+                        <div class="align-bottom" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                            <a class="btn btn-danger align-bottom "
+                               th:href="@{/model/model-delete/{model-name}(model-name=${modelDetails.name})}">Delete model</a>
 
                         </div>
                     </div>

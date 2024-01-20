@@ -81,15 +81,15 @@ public class ModelDTO {
         this.categoryType = categoryType;
     }
 
-    @Override
-    public String toString() {
-        return "ModelDTO{" +
-                ", name='" + name + '\'' +
-                ", categoryType='" + categoryType + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", startYear=" + startYear +
-                ", endYear=" + endYear +
-                ", brand=" + brandName +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "ModelDTO{" +
+//                ", name='" + name + '\'' +
+//                ", categoryType='" + categoryType + '\'' +
+//                ", imageUrl='" + imageUrl + '\'' +
+//                ", startYear=" + startYear +
+//                ", endYear=" + endYear +
+//                ", brand=" + brandName +
+//                '}';
+//    }
 }

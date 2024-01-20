@@ -13,7 +13,7 @@
 <!--                            <h4 th:text="'Username: ' + *{u.username}"></h4>-->
 <!--                            <h4 th:text="'Password: ' + *{u.password}"></h4>-->
 <!--                            <h4 th:text="'ImageURL: ' + *{u.imageUrl}"></h4>-->
-                           <a th:href="@{/userEntity/userEntity-details/{id}(id=${u.username})}" class="btn btn-danger">Details info</a>
+                           <a th:href="@{/userEntity/userEntity-details/{id}(id=${u.username})}" class="btn btn-danger" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">Details info</a>
                         </div>
                     </div>
                 </div>

@@ -1,9 +1,6 @@
 package org.example.web.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -121,16 +118,4 @@ public class Model extends TimeEntity {
         this.offers = offers;
     }
 
-    @Override
-    public String toString() {
-        return "Model{" +
-                "offers=" + offers +
-                ", name='" + name + '\'' +
-                ", categoryType=" + categoryType +
-                ", imageURL='" + imageURL + '\'' +
-                ", startYear=" + startYear +
-                ", endYear=" + endYear +
-                ", brand=" + brand +
-                '}';
-    }
 }

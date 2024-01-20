@@ -43,11 +43,4 @@ public class Brand extends TimeEntity {
         this.models = models;
     }
 
-    @Override
-    public String toString() {
-        return "Brand{" +
-                "models=" + models +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }

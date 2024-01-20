@@ -12,11 +12,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface UserEntityRepository extends JpaRepository<UserEntity, UUID> {
+public interface UserEntityRepository extends JpaRepository<UserEntity, String> {
     Optional<UserEntity> findUserEntityByUsername(String username);
 
     Optional<UserEntity> findByEmail(String email);
-
 
     @Modifying
     @Transactional

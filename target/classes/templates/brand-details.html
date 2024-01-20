@@ -15,7 +15,11 @@
                     <div class="col-md-6 pt-3">
                         <h2>Brand</h2>
                         <h4 th:text="'Name: ' + ${brandDetails.name}"></h4>
-                        <div class="align-bottom">
+                        <div class="align-bottom" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                        <a class="btn btn-danger align-bottom" th:href="@{/brands/brand-edit/{brandId}(brandId=${brandDetails.uuid})}">Update brand</a>
+
+                        </div>
+                        <div class="align-bottom" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
                             <a class="btn btn-danger align-bottom"
                                                      th:href="@{/brands/brand-delete/{brand-name}(brand-name=${brandDetails.name})}">Delete brand</a>
 

@@ -64,6 +64,20 @@
                             message</small>
                     </div>
 
+                    <div class="mb-3">
+                        <label class="form-label" for="userRole">UserRole</label>
+                        <select multiple="false" class="form-control text-center"
+                                id="userRole" name="name" th:field="*{userRole}">
+                            <option th:each="u : ${availableUserRole}"
+                                    th:value="${u.roleType}"
+                                    th:text="${u.roleType}">UserRole name
+                            </option>
+                        </select>
+                        <small th:if="${#fields.hasErrors('userRole')}" th:errors="*{userRole}"
+                               class="text-danger">Error
+                            message</small>
+                    </div>
+
                     <button type="submit" class="btn btn-danger">Add User</button>
                 </form>
             </div>

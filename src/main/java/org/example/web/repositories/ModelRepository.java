@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ModelRepository extends JpaRepository<Model, UUID> {
+public interface ModelRepository extends JpaRepository<Model, String> {
     Optional<Model> findModelByName(String name);
 
     @Modifying

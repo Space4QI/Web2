@@ -1,9 +1,10 @@
 package org.example.web.controllers;
 
 import jakarta.validation.Valid;
-import org.example.web.DTO.AddOfferDTO;
-import org.example.web.DTO.OfferDTO;
-import org.example.web.DTO.UserEntityDTO;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.web.DTO.*;
 import org.example.web.models.Offer;
 import org.example.web.services.ModelService;
 import org.example.web.services.OfferService;
@@ -15,12 +16,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
 @Controller
 @RequestMapping("/offer")
 public class OfferController {
+
+    private static final Logger LOG = LogManager.getLogger(Controller.class);
 
     private OfferService offerService;
 
@@ -116,5 +120,13 @@ public class OfferController {
     public String deleteOffer(@PathVariable("offer-offerId") String offerId) {
         offerService.deleteOffer(offerId);
         return "redirect:/offer/all";
+    }
+
+    @GetMapping("/userEntity-offers")
+    String getUserOffers(Model model, Principal principal) {
+        LOG.log(Level.INFO, "Show user offers for " + principal.getName());
+        List<AddOfferDTO> userOffers = offerService.getAllBySeller(principal.getName());
+        model.addAttribute("offerModel", userOffers);
+        return "userEntity-offers";
     }
 }

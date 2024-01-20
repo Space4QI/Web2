@@ -31,12 +31,12 @@ public class UserRoleService {
                 .collect(Collectors.toList());
     }
 
-    public UserRoleDTO getUserRoleById(UUID id) {
+    public UserRoleDTO getUserRoleById(String id) {
         UserRole userRole = userRoleRepository.findById(id).orElseThrow(RuntimeException::new);
         return userRoleMapper.toDTO(userRole);
     }
 
-    public UserRoleDTO updateUserRole(UserRoleDTO updatedUserRole, UUID id) {
+    public UserRoleDTO updateUserRole(UserRoleDTO updatedUserRole, String id) {
         UserRole userRole = userRoleRepository.findById(id).orElseThrow(NoSuchElementException::new);
         userRole.setRoleType(UserRole.RoleType.valueOf(updatedUserRole.getRoleType()));
         UserRole updateUserRole = userRoleRepository.saveAndFlush(userRole);
@@ -47,7 +47,7 @@ public class UserRoleService {
         return userRoleMapper.toDTO(userRoleRepository.saveAndFlush(userRoleMapper.toEntity(userRole)));
     }
 
-    public void deleteUserRole(UUID id) {
+    public void deleteUserRole(String id) {
         try {
             userRoleRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {

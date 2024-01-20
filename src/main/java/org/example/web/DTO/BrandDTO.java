@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Size;
 import org.example.web.utils.validation.UniqueBrandName;
 
 import java.util.List;
+import java.util.UUID;
 
 
 public class BrandDTO {

@@ -1,10 +1,6 @@
 package org.example.web.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
@@ -67,6 +63,7 @@ public class Offer extends TimeEntity {
             this.num = num;
         }
     }
+
 
     private LocalDate year;
 
@@ -166,20 +163,5 @@ public class Offer extends TimeEntity {
 
     public void setTransmissionType(TransmissionType transmissionType) {
         this.transmissionType = transmissionType;
-    }
-
-    @Override
-    public String toString() {
-        return "Offer{" +
-                ", description='" + description + '\'' +
-                ", engineType=" + engineType +
-                ", imageURL='" + imageURL + '\'' +
-                ", mileage=" + mileage +
-                ", price=" + price +
-                ", transmissionType=" + transmissionType +
-                ", year=" + year +
-                ", model=" + model +
-                ", seller=" + seller +
-                '}';
     }
 }

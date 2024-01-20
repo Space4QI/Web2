@@ -5,11 +5,11 @@ import org.example.web.mappers.BrandMapper;
 import org.example.web.models.Brand;
 import org.example.web.repositories.BrandRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.cache.annotation.CacheEvict;
 
 import java.util.List;
 import java.util.UUID;
@@ -44,8 +44,18 @@ public class BrandService {
                 .collect(Collectors.toList());
     }
 
-    public BrandDTO getBrandById(UUID id) {
+    public BrandDTO getBrandById(String id) {
         Brand brand = brandRepository.findById(id).orElseThrow(RuntimeException::new);
+        return brandMapper.toDTO(brand);
+    }
+
+    public BrandDTO findBrandByUuid(String uuid) {
+        Brand brand = brandRepository.findBrandByUuid(uuid).orElseThrow(RuntimeException::new);
+        return brandMapper.toDTO(brand);
+    }
+
+    public BrandDTO findBrandByName(String name) {
+        Brand brand = brandRepository.findBrandByName(name).orElseThrow(RuntimeException::new);
         return brandMapper.toDTO(brand);
     }
 
@@ -57,7 +67,7 @@ public class BrandService {
     }
 
     @CacheEvict(cacheNames = "brand", allEntries = true)
-    public BrandDTO updateBrand(UUID id, BrandDTO updatedBrand) {
+    public BrandDTO updateBrand(String id, BrandDTO updatedBrand) {
         return brandRepository.findById(id)
                 .map(brand -> {
                     brand.setName(updatedBrand.getName());

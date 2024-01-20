@@ -143,7 +143,9 @@ public class UserEntity extends TimeEntity {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", imageURL='" + imageURL + '\'' +
-                ", userRole=" + name +
+                ", email='" + email + '\'' +
+                ", age=" + age +
+                ", name=" + name +
                 '}';
     }
 }

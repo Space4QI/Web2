@@ -1,21 +1,14 @@
 package org.example.web.init;
 
-import org.example.web.DTO.BrandDTO;
-import org.example.web.DTO.ModelDTO;
-import org.example.web.DTO.UserEntityDTO;
-import org.example.web.DTO.UserRoleDTO;
 import org.example.web.DTO.OfferDTO;
 import org.example.web.mappers.*;
-import org.example.web.models.Brand;
-import org.example.web.models.Model;
-import org.example.web.models.Offer;
-import org.example.web.models.UserEntity;
-import org.example.web.models.UserRole;
+import org.example.web.models.*;
 import org.example.web.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -32,27 +25,24 @@ public class DataInitializer implements CommandLineRunner {
     private final UserRoleService userRoleService;
     private final UserRoleMapper userRoleMapper;
     private final UserEntityMapper userEntityMapper;
+
+    private final PasswordEncoder passwordEncoder;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DataInitializer.class.getName());
 
     @Autowired
-    public DataInitializer(
-            BrandService brandService,
-            ModelService modelService,
-            UserEntityService userEntityService,
-            OfferService offerService,
-            UserRoleService userRoleService,
-            UserRoleMapper userRoleMapper, UserEntityMapper userEntityMapper, BrandMapper brandMapper,
-            ModelsMapper modelsMapper, OfferMapper offerMapper) {
+    public DataInitializer(BrandService brandService, BrandMapper brandMapper, ModelService modelService, ModelsMapper modelsMapper, UserEntityService userEntityService, OfferService offerService, OfferMapper offerMapper, UserRoleService userRoleService, UserRoleMapper userRoleMapper, UserEntityMapper userEntityMapper, PasswordEncoder passwordEncoder) {
         this.brandService = brandService;
+        this.brandMapper = brandMapper;
         this.modelService = modelService;
+        this.modelsMapper = modelsMapper;
         this.userEntityService = userEntityService;
         this.offerService = offerService;
+        this.offerMapper = offerMapper;
         this.userRoleService = userRoleService;
         this.userRoleMapper = userRoleMapper;
         this.userEntityMapper = userEntityMapper;
-        this.brandMapper = brandMapper;
-        this.modelsMapper = modelsMapper;
-        this.offerMapper = offerMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -69,29 +59,29 @@ public class DataInitializer implements CommandLineRunner {
         UserEntity userEntity = new UserEntity();
         userEntity.setModified(LocalDate.now());
         userEntity.setCreated(LocalDate.now());
-        userEntity.setUserRole(userRole);
+        userEntity.setUserRole(userRole1);
         userEntity.setUsername("user");
         userEntity.getEmail();
         userEntity.setLastName("Userovich");
         userEntity.setImageURL("URL....");
         userEntity.setFirstName("User");
         userEntity.setAge(22);
-        userEntity.setPassword("12345");
+        userEntity.setPassword(passwordEncoder.encode("56789"));
         userEntity.setActive(true);
         //UserEntityDTO userEntityDTO = userEntityService.saveUserEntity(userEntityMapper.toDTO(userEntity));
-       // LOGGER.warn(userEntityDTO.toString());
+        // LOGGER.warn(userEntityDTO.toString());
 
         UserEntity userEntity1 = new UserEntity();
         userEntity1.setModified(LocalDate.now());
 
         userEntity1.setCreated(LocalDate.now());
-        userEntity1.setUserRole(userRole1);
+        userEntity1.setUserRole(userRole);
         userEntity1.setUsername("admin");
         userEntity1.setLastName("Adminovich");
         userEntity1.setImageURL("URL123");
         userEntity1.setFirstName("Admin");
         userEntity1.setAge(30);
-        userEntity1.setPassword("4321");
+        userEntity1.setPassword(passwordEncoder.encode("12345"));
         userEntity1.setActive(true);
 
         Brand brand = new Brand();
@@ -109,6 +99,8 @@ public class DataInitializer implements CommandLineRunner {
         model.setName("X");
         model.setCategoryType(Model.CategoryType.CAR);
         model.setImageURL("https://www.example.com/images/model123.jpg");
+        model.setStartYear(2015);
+        model.setEndYear(2035);
         model.setCreated(LocalDate.now());
         model.setModified(LocalDate.now());
         model.setBrand(brand);
@@ -119,33 +111,11 @@ public class DataInitializer implements CommandLineRunner {
         model1.setName("M4");
         model1.setCategoryType(Model.CategoryType.CAR);
         model1.setImageURL("https://www.example.com/images/model32243.jpg");
+        model.setStartYear(2013);
+        model.setEndYear(2030);
         model1.setCreated(LocalDate.now());
         model1.setModified(LocalDate.now());
         model1.setBrand(brand2);
-
-        Model model2 = new Model();
-        model2.setName("M4");
-        model2.setCategoryType(Model.CategoryType.CAR);
-        model2.setImageURL("https://www.example.com/images/model32243.jpg");
-        model2.setCreated(LocalDate.now());
-        model2.setModified(LocalDate.now());
-        model2.setBrand(brand2);
-
-        Model model3 = new Model();
-        model3.setName("M4");
-        model3.setCategoryType(Model.CategoryType.CAR);
-        model3.setImageURL("https://www.example.com/images/model32243.jpg");
-        model3.setCreated(LocalDate.now());
-        model3.setModified(LocalDate.now());
-        model3.setBrand(brand2);
-
-        Model model4 = new Model();
-        model4.setName("M4");
-        model4.setCategoryType(Model.CategoryType.CAR);
-        model4.setImageURL("https://www.example.com/images/model32243.jpg");
-        model4.setCreated(LocalDate.now());
-        model4.setModified(LocalDate.now());
-        model4.setBrand(brand2);
 
         Offer offer = new Offer();
         offer.setDescription("Right");

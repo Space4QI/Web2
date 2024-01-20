@@ -1,6 +1,9 @@
 package org.example.web.DTO;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
+import org.example.web.utils.validation.UniqueBrandName;
+
 
 public class UserRegistrationDTO {
 
@@ -13,26 +16,29 @@ public class UserRegistrationDTO {
 
     private String lastName;
 
-    // Делайте проверку на уникальность
-
     private String password;
 
     private String confirmPassword;
 
-    public UserRegistrationDTO(String username, String email, String firstName, String lastName, String password, String confirmPassword) {
+    private int age;
+
+    public UserRegistrationDTO(String username, String email, String firstName, String lastName, String password, String confirmPassword, int age) {
         this.username = username;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.confirmPassword = confirmPassword;
+        this.age = age;
     }
 
-    public UserRegistrationDTO() {}
+    public UserRegistrationDTO() {
+    }
 
 
     @NotEmpty(message = "User name cannot be null or empty!")
     @Size(min = 5, max = 20)
+    @Column(unique = true)
     public String getUsername() {
         return username;
     }
@@ -43,6 +49,7 @@ public class UserRegistrationDTO {
 
     @NotEmpty(message = "Email cannot be null or empty!")
     @Email
+    @Column(unique = true)
     public String getEmail() {
         return email;
     }
@@ -50,15 +57,16 @@ public class UserRegistrationDTO {
     public void setEmail(String email) {
         this.email = email;
     }
-//    @Min(0)
-//    @Max(90)
-//    public int getAge() {
-//        return age;
-//    }
-//
-//    public void setAge(int age) {
-//        this.age = age;
-//    }
+
+    @Min(0)
+    @Max(90)
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 
     @NotEmpty(message = "First name cannot be null or empty!")
     @Size(min = 5, max = 20)

@@ -6,8 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class OfferDTO implements Serializable {
 
@@ -16,7 +14,7 @@ public class OfferDTO implements Serializable {
     private String imageUrl;
     private Integer mileage;
     private Double price;
-    private LocalTime year;
+    private String year;
 
     private UserEntityDTO seller;
 
@@ -25,6 +23,10 @@ public class OfferDTO implements Serializable {
     private String transmissionType;
 
     private String engineType;
+
+    private String modified;
+
+    private String created;
 
     @NotEmpty(message = "Description must not be null or empty")
     @Size(min = 10, message = "Description must be at least 10 characters")
@@ -67,11 +69,11 @@ public class OfferDTO implements Serializable {
     }
 
     @NotNull(message = "StartYear must be not null or empty")
-    public LocalTime getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(LocalTime year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
@@ -115,5 +117,21 @@ public class OfferDTO implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getModified() {
+        return modified;
+    }
+
+    public void setModified(String modified) {
+        this.modified = modified;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
     }
 }

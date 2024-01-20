@@ -22,7 +22,7 @@ public class UserRoleController {
     }
 
     @GetMapping("/view/{id}")
-    public String viewUserRole(@PathVariable UUID id, Model model) {
+    public String viewUserRole(@PathVariable String id, Model model) {
         UserRoleDTO userRoleDTO = userRoleService.getUserRoleById(id);
         model.addAttribute("userRole", userRoleDTO);
         return "userRole/view";
@@ -47,20 +47,20 @@ public class UserRoleController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editUserRoleForm(@PathVariable UUID id, Model model) {
+    public String editUserRoleForm(@PathVariable String id, Model model) {
         UserRoleDTO userRoleDTO = userRoleService.getUserRoleById(id);
         model.addAttribute("userRoleDTO", userRoleDTO);
         return "userRole/editForm";
     }
 
     @PostMapping("/edit/{id}")
-    public String editUserRole(@PathVariable UUID id, @ModelAttribute UserRoleDTO userRoleDTO) {
+    public String editUserRole(@PathVariable String id, @ModelAttribute UserRoleDTO userRoleDTO) {
         userRoleService.updateUserRole(userRoleDTO, id);
         return "redirect:/userRoles";
     }
 
     @PostMapping("/delete/{id}")
-    public String deleteUserRole(@PathVariable UUID id) {
+    public String deleteUserRole(@PathVariable String id) {
         userRoleService.deleteUserRole(id);
         return "redirect:/userRoles";
     }

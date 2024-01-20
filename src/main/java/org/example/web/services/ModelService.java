@@ -1,7 +1,9 @@
 package org.example.web.services;
 
+import org.example.web.DTO.BrandDTO;
 import org.example.web.DTO.ModelDTO;
 import org.example.web.mappers.ModelsMapper;
+import org.example.web.models.Brand;
 import org.example.web.models.Model;
 import org.example.web.repositories.BrandRepository;
 import org.example.web.repositories.ModelRepository;
@@ -45,13 +47,18 @@ public class ModelService {
                 .collect(Collectors.toList());
     }
 
-    public ModelDTO getModelById(UUID id) {
+    public ModelDTO getModelById(String id) {
         Optional<Model> modelOptional = modelRepository.findById(id);
         if (modelOptional.isPresent()) {
             return modelsMapper.toDTO(modelOptional.get());
         } else {
             throw new NoSuchElementException("Model with id " + id + " not found");
         }
+    }
+
+    public ModelDTO findModelByName(String name) {
+        Model model = modelRepository.findModelByName(name).orElseThrow(RuntimeException::new);
+        return modelsMapper.toDTO(model);
     }
 
     @CacheEvict(cacheNames = "model", allEntries = true)
@@ -62,7 +69,7 @@ public class ModelService {
         modelRepository.saveAndFlush(model);
     }
 
-    public ModelDTO updateModel(ModelDTO updatedModel, UUID id) {
+    public ModelDTO updateModel(ModelDTO updatedModel, String id) {
         Model model = modelRepository.findById(id).orElseThrow(NoSuchElementException::new);
         model.setCategoryType(Model.CategoryType.valueOf(updatedModel.getCategoryType()));
         Model updateModel = modelRepository.save(model);

@@ -9,9 +9,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import javax.management.relation.Role;
-import java.util.List;
-
 @Component
 public class Init implements CommandLineRunner {
     private final UserEntityRepository userEntityRepository;
@@ -29,7 +26,7 @@ public class Init implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        initRoles();
+        //initRoles();
         //initUsers();
     }
 
@@ -46,43 +43,43 @@ public class Init implements CommandLineRunner {
     }
 
 
-//    private void initUsers() {
-//        if (userEntityRepository.count() == 0) {
-//            initAdmin();
-//            initNormalUser();
-//        }
-//    }
-//
-//    private void initAdmin() {
-//        var adminRole = userRoleRepository
-//                .findUserRoleByName(UserRole.RoleType.ADMIN.name())
-//                .orElseThrow(() -> new RuntimeException("Admin role not found"));
-//
-//        var adminUser = new UserEntity();
-//        adminUser.setUsername("admin");
-//        adminUser.setPassword(passwordEncoder.encode(defaultPassword));
-//        //adminUser.setEmail("admin@example.com");
-//        adminUser.setFirstName("Admin");
-//        adminUser.setLastName("Adminovich");
-//        adminUser.setAge(30);
-//        adminUser.setUserRole(adminRole);
-//
-//        userEntityRepository.save(adminUser);
-//    }
-//
-//    private void initNormalUser() {
-//        var userRole = userRoleRepository.findUserRoleByName(UserRole.RoleType.USER.name()).orElseThrow();
-//
-//        var normalUser = new UserEntity();
-//        normalUser.setUsername("user");
-//        normalUser.setPassword(passwordEncoder.encode(defaultPassword));
-//        //normalUser.setEmail("user@example.com");
-//        normalUser.setFirstName("User");
-//        normalUser.setLastName("Userovich");
-//        normalUser.setAge(22);
-//        normalUser.setUserRole(userRole);
-//
-//        userEntityRepository.save(normalUser);
-//    }
+    private void initUsers() {
+        if (userEntityRepository.count() == 0) {
+            initAdmin();
+            initNormalUser();
+        }
+    }
+
+    private void initAdmin() {
+        var adminRole = userRoleRepository
+                .findUserRoleByName(UserRole.RoleType.ADMIN.name())
+                .orElseThrow(() -> new RuntimeException("Admin role not found"));
+
+        var adminUser = new UserEntity();
+        adminUser.setUsername("admin");
+        adminUser.setPassword(passwordEncoder.encode(defaultPassword));
+        adminUser.setEmail("admin@example.com");
+        adminUser.setFirstName("Admin");
+        adminUser.setLastName("Adminovich");
+        adminUser.setAge(30);
+        adminUser.setUserRole(adminRole);
+
+        userEntityRepository.save(adminUser);
+    }
+
+    private void initNormalUser() {
+        var userRole = userRoleRepository.findUserRoleByName(UserRole.RoleType.USER.name()).orElseThrow();
+
+        var normalUser = new UserEntity();
+        normalUser.setUsername("user");
+        normalUser.setPassword(passwordEncoder.encode(defaultPassword));
+        normalUser.setEmail("user@example.com");
+        normalUser.setFirstName("User");
+        normalUser.setLastName("Userovich");
+        normalUser.setAge(22);
+        normalUser.setUserRole(userRole);
+
+        userEntityRepository.save(normalUser);
+    }
 
 }

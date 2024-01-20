@@ -13,7 +13,7 @@
                 </div>
                 <form th:action="@{/users/register}"
                       th:method="post"
-                      th:object="${userRegistrationDto}"
+                      th:object="${userRegistrationDTO}"
                       class="m-md-auto w-50 pb-3">
                     <div class="mb-3">
                         <label class="form-label" for="username">Username</label>
@@ -21,8 +21,8 @@
                                th:errorclass="is-invalid"
                                type="text" class="form-control text-center" id="username" aria-describedby="usernameHelp"
                                name="username"/>
-                        <small th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger">Error
-                            message</small>
+                        <small th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger">Error message</small>
+                        <small th:if="${usernameError}" class="text-danger" th:text="${usernameError}"></small>
                     </div>
 
                     <div class="mb-3">
@@ -51,20 +51,19 @@
                                th:errorclass="is-invalid"
                                type="email" class="form-control text-center"
                                id="email" aria-describedby="email" name="email"/>
-                        <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-                               class="text-danger">Error
-                            message</small>
+                        <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger">Error message</small>
+                        <small th:if="${emailError}" class="text-danger" th:text="${emailError}"></small>
                     </div>
 
-<!--                    <div class="mb-3">-->
-<!--                        <label class="form-label" for="age">Age</label>-->
-<!--                        <input th:field="*{age}"-->
-<!--                               th:errorclass="is-invalid"-->
-<!--                               type="number" min="0" class="form-control text-center"-->
-<!--                               id="age" aria-describedby="age" name="age"/>-->
-<!--                        <small th:if="${#fields.hasErrors('age')}" th:errors="*{age}"-->
-<!--                               class="text-danger">Age</small>-->
-<!--                    </div>-->
+                    <div class="mb-3">
+                        <label class="form-label" for="age">Age</label>
+                        <input th:field="*{age}"
+                               th:errorclass="is-invalid"
+                               type="number" min="0" class="form-control text-center"
+                               id="age" aria-describedby="age" name="age"/>
+                        <small th:if="${#fields.hasErrors('age')}" th:errors="*{age}"
+                               class="text-danger">Age</small>
+                    </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="password">Password</label>
@@ -91,7 +90,7 @@
                             message</small>
                     </div>
 
-                    <button type="submit" class="btn btn-secondary">Register</button>
+                    <button type="submit" class="btn btn-danger">Register</button>
                 </form>
             </div>
         </div>

@@ -1,10 +1,10 @@
 package org.example.web.services;
 
-import org.example.web.DTO.BrandDTO;
 import org.example.web.DTO.ModelDTO;
+import org.example.web.DTO.UserEntityAddDTO;
 import org.example.web.DTO.UserEntityDTO;
+import org.example.web.DTO.UserEntityDetailsDTO;
 import org.example.web.mappers.UserEntityMapper;
-import org.example.web.models.Brand;
 import org.example.web.models.Model;
 import org.example.web.models.UserEntity;
 import org.example.web.repositories.UserEntityRepository;
@@ -40,10 +40,10 @@ public class UserEntityService {
         this.userRoleService = userRoleService;
     }
 
-    public UserEntityDTO addUserEntity(UserEntityDTO userEntityDTO) {
-        UserEntity userEntity = modelMapper.map(userEntityDTO, UserEntity.class);
+    public UserEntityAddDTO addUserEntity(UserEntityAddDTO userEntityAddDTO) {
+        UserEntity userEntity = modelMapper.map(userEntityAddDTO, UserEntity.class);
         UserEntity addUser = userEntityRepository.saveAndFlush(userEntity);
-        return modelMapper.map(addUser, UserEntityDTO.class);
+        return modelMapper.map(addUser, UserEntityAddDTO.class);
     }
 
     public List<UserEntityDTO> getAllUserEntity() {
@@ -53,7 +53,7 @@ public class UserEntityService {
                 .collect(Collectors.toList());
     }
 
-    public UserEntityDTO getUserEntityById(UUID id) {
+    public UserEntityDTO getUserEntityById(String id) {
         Optional<UserEntity> userEntityOptional = userEntityRepository.findById(id);
         if (userEntityOptional.isPresent()) {
             return userEntityMapper.toDTO(userEntityOptional.get());
@@ -62,7 +62,7 @@ public class UserEntityService {
         }
     }
 
-    public UserEntityDTO updateUserEntity(UserEntityDTO updatedUserEntity, UUID id) {
+    public UserEntityDTO updateUserEntity(UserEntityDTO updatedUserEntity, String id) {
         UserEntity userEntity = userEntityRepository.findById(id).orElseThrow(NoSuchElementException::new);
         UserEntity updateUserEntity = userEntityRepository.save(userEntity);
         return userEntityMapper.toDTO(updateUserEntity);
@@ -115,8 +115,21 @@ public class UserEntityService {
 
     }
 
-    public UserEntityDTO userEntityDetails(String userEntityUsername) {
-        return modelMapper.map(userEntityRepository.findUserEntityByUsername(userEntityUsername).orElse(null), UserEntityDTO.class);
+    public UserEntityDTO findUserEntityByUsername(String username) {
+        UserEntity userEntity = userEntityRepository.findUserEntityByUsername(username).orElseThrow(RuntimeException::new);
+        return userEntityMapper.toDTO(userEntity);
+    }
+
+    public boolean isUsernameUnique(String username) {
+        return userEntityRepository.findUserEntityByUsername(username).isEmpty();
+    }
+
+    public boolean isEmailUnique(String email) {
+        return userEntityRepository.findByEmail(email).isEmpty();
+    }
+
+    public UserEntityDetailsDTO userEntityDetails(String userEntityUsername) {
+        return modelMapper.map(userEntityRepository.findUserEntityByUsername(userEntityUsername).orElse(null), UserEntityDetailsDTO.class);
     }
 
     public void deleteUserEntity(String userEntityUsername) {

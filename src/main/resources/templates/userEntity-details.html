@@ -14,10 +14,11 @@
                         <h2>User</h2>
                         <h4 th:text="'First Name: ' + ${userEntityDetails.firstName}"></h4>
                         <h4 th:text="'Last Name: ' + ${userEntityDetails.lastName}"></h4>
-                        <h4 th:text="'ImageURL: ' + ${userEntityDetails.imageUrl}"></h4>
-                        <h4 th:text="'Password: ' + ${userEntityDetails.password}"></h4>
                         <h4 th:text="'Username: ' + ${userEntityDetails.username}"></h4>
-                        <div class="align-bottom">
+                        <div class="align-bottom" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                            <a class="btn btn-danger align-bottom" th:href="@{/userEntity/userEntity-edit/{userEntity-username}(userEntity-username=${userEntityDetails.username})}">Update user</a>
+                        </div>
+                        <div class="align-bottom" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
                             <a class="btn btn-danger align-bottom"
                                th:href="@{/userEntity/userEntity-delete/{userEntity-username}(userEntity-username=${userEntityDetails.username})}">Delete
                                 user</a>

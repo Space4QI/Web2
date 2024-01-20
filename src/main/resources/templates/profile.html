@@ -20,6 +20,7 @@
                         <h4 th:text="'Age: ' + *{age}"></h4>
                         <b>User Roles: </b>
                         <div sec:authentication="principal.authorities"></div>
+                        <a class="btn btn-danger mt-3" href="/offer/userEntity-offers">Your offers</a>
                     </div>
 <!--                    <div class="col-md-6"><img src="/pic/employee.png" height="350px"></div>-->
                 </div>

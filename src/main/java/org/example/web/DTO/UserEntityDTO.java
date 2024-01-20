@@ -1,10 +1,13 @@
 package org.example.web.DTO;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.example.web.models.UserRole;
 
 public class UserEntityDTO {
+
+    private String uuid;
     private String username;
     private String firstName;
     private String lastName;
@@ -15,7 +18,9 @@ public class UserEntityDTO {
 
     private UserRole name;
 
-    public UserEntityDTO(String username, String firstName, String lastName, boolean isActive, String imageUrl, String password, UserRole name) {
+
+
+    public UserEntityDTO(String uuid, String username, String firstName, String lastName, boolean isActive, String imageUrl, String password, UserRole name) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -23,10 +28,19 @@ public class UserEntityDTO {
         this.imageUrl = imageUrl;
         this.password = password;
         this.name = name;
+
     }
 
     public UserEntityDTO() {
 
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     @NotEmpty(message = "Username cannot be null or empty")
@@ -84,7 +98,7 @@ public class UserEntityDTO {
         this.password = password;
     }
 
-    @NotEmpty(message = "Choose the userRole")
+    @NotNull(message = "Choose the userRole")
     public UserRole getUserRole() {
         return name;
     }
@@ -102,7 +116,7 @@ public class UserEntityDTO {
                 ", isActive=" + isActive +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", password='" + password + '\'' +
-                ", userRole=" + name +
+                ", name=" + name +
                 '}';
     }
 }

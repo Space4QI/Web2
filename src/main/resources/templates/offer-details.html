@@ -17,11 +17,11 @@
                         <h4 th:text="'Mileage: ' + ${offerDetails.mileage}"></h4>
                         <h4 th:text="'Price: ' + ${offerDetails.price}"></h4>
                         <h4 th:text="'Year: ' + ${offerDetails.year}"></h4>
-                        <h4 th:text="'Seller: ' + ${offerDetails.seller}"></h4>
-                        <h4 th:text="'Model: ' + ${offerDetails.model}"></h4>
+                        <h4 th:text="'Seller: ' + ${offerDetails.seller.username}"></h4>
+                        <h4 th:text="'Model: ' + ${offerDetails.model.name}"></h4>
                         <h4 th:text="'Transmission: ' + ${offerDetails.transmissionType}"></h4>
                         <h4 th:text="'Engine: ' + ${offerDetails.engineType}"></h4>
-                        <div class="align-bottom">
+                        <div class="align-bottom" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
                             <a class="btn btn-danger align-bottom"
                                th:href="@{/offer/offer-delete/{offer-id}(offer-id=${offerDetails.id})}">Delete
                                 offer</a>

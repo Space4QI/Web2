@@ -1,11 +1,8 @@
 package org.example.web.services;
 
-import org.example.web.DTO.AddOfferDTO;
-import org.example.web.DTO.ModelDTO;
-import org.example.web.DTO.OfferDTO;
-import org.example.web.DTO.UserEntityDTO;
+import jakarta.persistence.EntityNotFoundException;
+import org.example.web.DTO.*;
 import org.example.web.mappers.OfferMapper;
-import org.example.web.models.Model;
 import org.example.web.models.Offer;
 import org.example.web.models.UserEntity;
 import org.example.web.repositories.ModelRepository;
@@ -17,7 +14,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -50,29 +46,32 @@ public class OfferService {
 
 
     @Cacheable("offer")
-    public List<OfferDTO> getAllOffer() {
+    public List<AllOfferDTO> getAllOffer() {
         return offerRepository.findAll()
-                .stream().map(offer -> modelMapper.map(offer, OfferDTO.class))
+                .stream().map(offer -> modelMapper.map(offer, AllOfferDTO.class))
                 .collect(Collectors.toList());
     }
 
     @CacheEvict(cacheNames = "offer", allEntries = true)
     public AddOfferDTO addOffer(AddOfferDTO addOfferDTO) {
         Offer offer = modelMapper.map(addOfferDTO, Offer.class);
+        offer.setModel(modelRepository.findModelByName(String.valueOf(addOfferDTO.getModel())).orElseThrow(null));
+        offer.setSeller(userEntityRepository.findUserEntityByUsername(String.valueOf(addOfferDTO.getSeller())).orElseThrow(null));
         Offer addOffer = offerRepository.saveAndFlush(offer);
         return modelMapper.map(addOffer, AddOfferDTO.class);
+
     }
 
-    public OfferDTO getOfferById(UUID id) {
-        Optional<Offer> offerOptional = offerRepository.findById(id);
+    public OfferDTO getOfferById(String uuid) {
+        Optional<Offer> offerOptional = offerRepository.findById(uuid);
         if (offerOptional.isPresent()) {
             return offerMapper.toDTO(offerOptional.get());
         } else {
-            throw new NoSuchElementException("Offer with id " + id + " not found");
+            throw new NoSuchElementException("Offer with id " + uuid + " not found");
         }
     }
 
-    public OfferDTO updateOffer(OfferDTO updatedOffer, UUID id) {
+    public OfferDTO updateOffer(OfferDTO updatedOffer, String id) {
         Offer offer = offerRepository.findById(id).orElseThrow(NoSuchElementException::new);
         offer.setEngineType(Offer.EngineType.valueOf(updatedOffer.getEngineType()));
         offer.setTransmissionType(Offer.TransmissionType.valueOf(updatedOffer.getTransmissionType()));
@@ -125,8 +124,8 @@ public class OfferService {
         return offerMapper.toDTO(save);
     }
 
-    public OfferDTO offerDetails(String offerId) {
-        return modelMapper.map(offerRepository.findOfferById(offerId).orElse(null), OfferDTO.class);
+    public OfferDetailsDTO offerDetails(String offerId) {
+        return modelMapper.map(offerRepository.findOfferByUuid(offerId).orElse(null), OfferDetailsDTO.class);
     }
 
     public List<Offer> getOffersInPriceRange(double minPrice, double maxPrice) {
@@ -140,5 +139,14 @@ public class OfferService {
         } catch (EmptyResultDataAccessException e) {
             System.out.println("Error: there is no element with " + offerId + " id");
         }
+    }
+
+    public List<AddOfferDTO> getAllBySeller(String sellerUsername) {
+        UserEntity seller = userEntityRepository.findUserEntityByUsername(sellerUsername)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        List<Offer> offers = offerRepository.findAllBySeller(seller);
+        return offers.stream()
+                .map(offer -> modelMapper.map(offer, AddOfferDTO.class))
+                .collect(Collectors.toList());
     }
 }
